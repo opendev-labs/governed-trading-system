@@ -94,6 +94,34 @@ export default function LogsPage() {
     }
   }
 
+  const exportToCSV = () => {
+    const headers = ["ID", "Timestamp", "Type", "Bot", "Message", "Status", "Details"]
+    const csvContent = [
+      headers.join(","),
+      ...logs.map((log) =>
+        [
+          log.id,
+          `"${log.timestamp}"`,
+          log.type,
+          log.bot,
+          `"${log.message}"`,
+          log.status,
+          `"${log.details}"`,
+        ].join(","),
+      ),
+    ].join("\n")
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const link = document.createElement("a")
+    const url = URL.createObjectURL(blob)
+    link.setAttribute("href", url)
+    link.setAttribute("download", `trading_logs_${new Date().toISOString().split("T")[0]}.csv`)
+    link.style.visibility = "hidden"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -109,7 +137,10 @@ export default function LogsPage() {
               </h1>
               <p className="text-muted-foreground text-sm">Real-time trading activity, signals, and system events</p>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+            <Button
+              onClick={exportToCSV}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+            >
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>

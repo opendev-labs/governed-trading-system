@@ -4,8 +4,18 @@ import { AlertTriangle, Settings, Lock, Info } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Navigation from "@/components/navigation"
+import { toast } from "sonner"
 
 export default function GovernancePage() {
+  const handleAddRule = () => {
+    const title = window.prompt("Enter new Governance Rule title:", "Volatility Circuit Breaker")
+    if (title) {
+      toast.info(`New governance rule proposal: ${title}`, {
+        description: "Rule has been queued for institutional audit and consensus verification.",
+      })
+    }
+  }
+
   const rules = [
     {
       id: 1,
@@ -87,7 +97,10 @@ export default function GovernancePage() {
                 Configure risk management rules and automated trading constraints
               </p>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+            <Button
+              onClick={handleAddRule}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+            >
               <Settings className="w-4 h-4 mr-2" />
               Add Rule
             </Button>

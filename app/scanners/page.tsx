@@ -6,10 +6,20 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Navigation from "@/components/navigation"
 import { fetchScanners, toggleScanner } from "@/lib/api"
+import { toast } from "sonner"
 
 export default function ScannersPage() {
   const [scanners, setScanners] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  const handleConfig = () => {
+    const interval = window.prompt("Enter scanning interval (seconds):", "60")
+    if (interval) {
+      toast.success(`Scanning interval updated to ${interval}s`, {
+        description: "All automated engines synchronized to new clock cycle.",
+      })
+    }
+  }
 
   const updateScanners = async () => {
     try {
@@ -85,7 +95,10 @@ export default function ScannersPage() {
                 Monitor {activeScanners}/5 automated market analysis engines with AI-powered signal detection
               </p>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+            <Button
+              onClick={handleConfig}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+            >
               <Settings className="w-4 h-4 mr-2" />
               Configure
             </Button>

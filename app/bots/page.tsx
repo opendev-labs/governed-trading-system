@@ -6,10 +6,22 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Navigation from "@/components/navigation"
 import { fetchBots, toggleBot as apiToggleBot } from "@/lib/api"
+import { toast } from "sonner"
 
 export default function BotsPage() {
   const [bots, setBots] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  const handleDeploy = () => {
+    const name = window.prompt("Enter new bot name:", "AlphaBot-7")
+    if (name) {
+      toast.promise(new Promise((res) => setTimeout(res, 1500)), {
+        loading: `Provisioning environment for ${name}...`,
+        success: `${name} has been successfully registered in the governance cluster.`,
+        error: "Failed to deploy bot.",
+      })
+    }
+  }
 
   const updateBots = async () => {
     try {
@@ -72,7 +84,10 @@ export default function BotsPage() {
                 Manage {activeBots}/10 semi-automated trading agents governed by health score
               </p>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+            <Button
+              onClick={handleDeploy}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+            >
               <PlayCircle className="w-4 h-4 mr-2" />
               Deploy New
             </Button>

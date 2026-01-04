@@ -1,24 +1,15 @@
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Sophisticated rounded background -->
-  <rect width="180" height="180" rx="40" fill="#060809"/>
+  <rect width="180" height="180" rx="40" fill="#020617"/>
   
-  <defs>
-    <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(90 90) rotate(90) scale(90)">
-      <stop stop-color="#3b82f6" stop-opacity="0.2"/>
-      <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="180" height="180" rx="40" fill="url(#paint0_radial)"/>
-
-  <!-- Governance Shield Shape -->
-  <path d="M90 45L135 65V105C135 132.614 115.82 153.228 90 160C64.1802 153.228 45 105V65L90 45Z" 
-        stroke="#3b82f6" stroke-width="8" stroke-linejoin="round" fill="#3b82f6" fill-opacity="0.1"/>
+  <!-- Outer Ring/Shield -->
+  <path d="M90 35L145 60V100C145 130 120 155 90 162C60 155 35 130 35 100V60L90 35Z" stroke="#3b82f6" stroke-width="4" fill="#3b82f6" fill-opacity="0.05"/>
   
-  <!-- Trading Momentum Line (Candlestick-like) -->
-  <path d="M70 115L85 100L100 115L125 85" 
-        stroke="#3b82f6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Abstract 'G' + 'T' + Chart Line -->
+  <path d="M60 100 L80 80 L100 110 L130 70 M130 70 V110 M130 110 H110" 
+        stroke="#60a5fa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
   
-  <!-- Precision Point -->
-  <circle cx="125" cy="85" r="5" fill="#3b82f6"/>
-  <circle cx="125" cy="85" r="2" fill="white"/>
+  <!-- Glow effect -->
+  <circle cx="130" cy="70" r="4" fill="#60a5fa">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
+  </circle>
 </svg>
