@@ -21,12 +21,10 @@ export default function Navigation() {
         <div className="flex justify-between items-center">
           {/* Logo & Brand */}
           <div className="flex items-center gap-4">
-            <div className="w-9 h-9 rounded-md bg-gradient-to-br from-primary via-accent to-primary flex items-center justify-center shadow-lg shadow-primary/30">
-              <span className="text-sm font-bold text-primary-foreground">T</span>
-            </div>
+            <img src="/icon.svg" alt="Logo" className="w-9 h-9 rounded-md shadow-lg shadow-primary/20" />
             <div className="hidden sm:flex flex-col">
-              <span className="font-bold text-sm leading-none">TradingOS</span>
-              <span className="text-xs text-muted-foreground">Governance v1</span>
+              <span className="font-bold text-sm leading-none">Governed Trading</span>
+              <span className="text-xs text-muted-foreground">Professional System</span>
             </div>
           </div>
 

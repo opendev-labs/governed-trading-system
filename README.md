@@ -1,4 +1,4 @@
-# Governed Trading System - Complete Implementation
+# Governed Trading System - Professional Implementation
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115.5-green.svg)](https://fastapi.tiangolo.com/)
@@ -8,6 +8,12 @@
 > **A production-ready, governed trading system with real-time market scanning, automated trading bots, and comprehensive risk management.**
 
 ---
+
+## 📖 Documentation
+
+- [**Technical Architecture**](./docs/TECHNICAL.md) - Deep dive into systems and data flow.
+- [**Governance & Risk**](./docs/GOVERNANCE.md) - Understanding the health score and safety limits.
+- [**Strategies & Bots**](./docs/STRATEGIES.md) - Overview of scanners and execution agents.
 
 ## 🎯 Overview
 
