@@ -129,17 +129,19 @@ export default function LogsPage() {
       <main className="p-6 md:p-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-6 mb-6">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
-                <Activity className="w-9 h-9 text-primary" />
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
+                <Activity className="w-8 h-8 sm:w-9 sm:h-9 text-primary" />
                 Execution Logs
               </h1>
-              <p className="text-muted-foreground text-sm">Real-time trading activity, signals, and system events</p>
+              <p className="text-muted-foreground text-sm max-w-xl">
+                Real-time trading activity, signals, and system events
+              </p>
             </div>
             <Button
               onClick={exportToCSV}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
             >
               <Download className="w-4 h-4 mr-2" />
               Export

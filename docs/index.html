@@ -50,9 +50,10 @@
 
     <div class="relative z-10 w-full max-w-6xl">
         <header
-            class="text-center mb-20 animate-in fade-in slide-in-from-bottom-4 duration-1000 flex flex-col items-center">
-            <div class="mb-8">
-                <svg width="120" height="120" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            class="text-center mb-12 sm:mb-20 animate-in fade-in slide-in-from-bottom-4 duration-1000 flex flex-col items-center">
+            <div class="mb-6 sm:mb-8">
+                <svg width="80" height="80" class="sm:w-[120px] sm:h-[120px]" viewBox="0 0 180 180" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <rect width="180" height="180" rx="40" fill="#020617" />
                     <path d="M90 35L145 60V100C145 130 120 155 90 162C60 155 35 130 35 100V60L90 35Z" stroke="#3b82f6"
                         stroke-width="4" fill="#3b82f6" fill-opacity="0.05" />
@@ -60,7 +61,8 @@
                         stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </div>
-            <div class="inline-flex items-center gap-3 glass px-6 py-2 rounded-full mb-8 border-blue-500/30">
+            <div
+                class="inline-flex items-center gap-2 sm:gap-3 glass px-4 sm:px-6 py-1.5 sm:py-2 rounded-full mb-6 sm:mb-8 border-blue-500/30">
                 <span class="relative flex h-2 w-2">
                     <span
                         class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -69,10 +71,11 @@
                 <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Institutional Documentation
                     Hub</span>
             </div>
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+            <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight">
                 Governed <span class="gradient-text">Trading</span> System
             </h1>
-            <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            <p
+                class="text-slate-400 text-base sm:text-lg md:text-xl max-w-2xl sm:max-w-3xl mx-auto leading-relaxed px-4">
                 A professional algorithmic trading platform with multi-layer governance, real-time market scanners, and
                 automated execution agents.
             </p>
@@ -156,17 +159,17 @@
             </a>
         </div>
 
-        <footer class="mt-32 text-center text-slate-500 border-t border-slate-800/10 pt-10">
-            <div class="flex justify-center gap-8 mb-6">
+        <footer class="mt-20 sm:mt-32 text-center text-slate-500 border-t border-slate-800/10 pt-10">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8 sm:mb-6">
                 <a href="https://github.com/opendev-labs/governed-trading-system"
-                    class="hover:text-blue-400 transition-colors flex items-center gap-2">
+                    class="hover:text-blue-400 transition-colors flex items-center gap-2 text-sm">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path
                             d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
                     </svg>
                     Source Code
                 </a>
-                <a href="../" class="hover:text-blue-400 transition-colors flex items-center gap-2">
+                <a href="../" class="hover:text-blue-400 transition-colors flex items-center gap-2 text-sm">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -174,8 +177,8 @@
                     Enterprise Dashboard
                 </a>
             </div>
-            <p class="text-xs uppercase tracking-widest font-bold text-slate-700">© 2026 Governed Trading System •
-                Institutional Grade</p>
+            <p class="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold text-slate-700">© 2026 Governed
+                Trading System • Institutional Grade</p>
         </footer>
     </div>
 </body>

@@ -49,10 +49,10 @@ export default function Dashboard() {
       <main className="p-6 md:p-8 max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-10">
-          <div className="flex justify-between items-start mb-2">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
             <div>
-              <h1 className="text-5xl font-bold tracking-tight mb-2">Control Plane</h1>
-              <p className="text-muted-foreground text-sm">
+              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-2">Control Plane</h1>
+              <p className="text-muted-foreground text-sm max-w-lg">
                 Real-time governance, execution monitoring, and portfolio management
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function Dashboard() {
         {/* System Overview Grid */}
         <div className="mb-10">
           <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">System Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <SystemStatus
               title="Market Condition"
               status="BULLISH"
@@ -118,7 +118,7 @@ export default function Dashboard() {
               <CardDescription>Access core trading system modules</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
                   {
                     name: "Market Scanners",

@@ -74,19 +74,19 @@ export default function BotsPage() {
       <main className="p-6 md:p-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-6 mb-6">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
-                <Zap className="w-9 h-9 text-primary" />
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
+                <Zap className="w-8 h-8 sm:w-9 sm:h-9 text-primary" />
                 Trading Bots
               </h1>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-sm max-w-xl">
                 Manage {activeBots}/10 semi-automated trading agents governed by health score
               </p>
             </div>
             <Button
               onClick={handleDeploy}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
             >
               <PlayCircle className="w-4 h-4 mr-2" />
               Deploy New
@@ -96,7 +96,7 @@ export default function BotsPage() {
         </div>
 
         {/* Portfolio Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           <Card className="glass-effect border-border">
             <CardContent className="pt-5 pb-4">
               <div className="flex justify-between items-start mb-3">
