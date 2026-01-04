@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import { Zap, PauseCircle, PlayCircle, TrendingUp, Target, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -7,20 +5,31 @@ import { Card, CardContent } from "@/components/ui/card"
 import Navigation from "@/components/navigation"
 import { fetchBots, toggleBot as apiToggleBot } from "@/lib/api"
 import { toast } from "sonner"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function BotsPage() {
   const [bots, setBots] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [newBotName, setNewBotName] = useState("AlphaBot-7")
+  const [isDeploying, setIsDeploying] = useState(false)
 
   const handleDeploy = () => {
-    const name = window.prompt("Enter new bot name:", "AlphaBot-7")
-    if (name) {
-      toast.promise(new Promise((res) => setTimeout(res, 1500)), {
-        loading: `Provisioning environment for ${name}...`,
-        success: `${name} has been successfully registered in the governance cluster.`,
-        error: "Failed to deploy bot.",
-      })
-    }
+    setIsDeploying(false)
+    toast.promise(new Promise((res) => setTimeout(res, 1500)), {
+      loading: `Provisioning environment for ${newBotName}...`,
+      success: `${newBotName} has been successfully registered in the governance cluster.`,
+      error: "Failed to deploy bot.",
+    })
   }
 
   const updateBots = async () => {
@@ -84,13 +93,41 @@ export default function BotsPage() {
                 Manage {activeBots}/10 semi-automated trading agents governed by health score
               </p>
             </div>
-            <Button
-              onClick={handleDeploy}
-              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
-            >
-              <PlayCircle className="w-4 h-4 mr-2" />
-              Deploy New
-            </Button>
+            <Dialog open={isDeploying} onOpenChange={setIsDeploying}>
+              <DialogTrigger asChild>
+                <Button className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+                  <PlayCircle className="w-4 h-4 mr-2" />
+                  Deploy New
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="glass-effect border-primary/20">
+                <DialogHeader>
+                  <DialogTitle>Deploy Intelligence Agent</DialogTitle>
+                  <DialogDescription>
+                    Configure a new automated agent to be governed by the institutional health score.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="py-4 space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="bot-name">Agent Identity</Label>
+                    <Input
+                      id="bot-name"
+                      value={newBotName}
+                      onChange={(e) => setNewBotName(e.target.value)}
+                      placeholder="e.g. AlphaBot-7"
+                    />
+                  </div>
+                  <div className="p-3 bg-secondary/30 rounded-lg border border-border/50">
+                    <p className="text-[10px] text-muted-foreground uppercase font-bold mb-1">Governance Status</p>
+                    <p className="text-xs text-emerald-400">Environment Ready • Verification Pending</p>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="ghost" onClick={() => setIsDeploying(false)}>Cancel</Button>
+                  <Button onClick={handleDeploy}>Execute Deployment</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="h-px bg-gradient-to-r from-primary/20 via-accent/10 to-transparent" />
         </div>

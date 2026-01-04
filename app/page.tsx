@@ -9,6 +9,7 @@ import HealthScore from "@/components/health-score"
 import SystemStatus from "@/components/system-status"
 import QuickStats from "@/components/quick-stats"
 import { fetchHealthScore, fetchSystemStatus, fetchQuickStats } from "@/lib/api"
+import { SettingsDialog } from "@/components/settings-dialog"
 
 export default function Dashboard() {
   const [healthData, setHealthData] = useState({ score: 78, status: "OPTIMAL" })
@@ -56,13 +57,7 @@ export default function Dashboard() {
                 Real-time governance, execution monitoring, and portfolio management
               </p>
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              className="border-border hover:border-primary/50 hover:bg-primary/5 smooth-transition bg-transparent"
-            >
-              <Settings className="w-5 h-5" />
-            </Button>
+            <SettingsDialog />
           </div>
           <div className="h-px bg-gradient-to-r from-primary/20 via-accent/10 to-transparent mt-4" />
         </div>

@@ -1,24 +1,33 @@
-"use client"
-
 import { useState, useEffect } from "react"
-import { BarChart3, TrendingUp, Zap, Settings, Activity } from "lucide-react"
+import { BarChart3, TrendingUp, Zap, Settings, Activity, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Navigation from "@/components/navigation"
 import { fetchScanners, toggleScanner } from "@/lib/api"
 import { toast } from "sonner"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function ScannersPage() {
   const [scanners, setScanners] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isConfiguring, setIsConfiguring] = useState(false)
+  const [scanInterval, setScanInterval] = useState("60")
 
   const handleConfig = () => {
-    const interval = window.prompt("Enter scanning interval (seconds):", "60")
-    if (interval) {
-      toast.success(`Scanning interval updated to ${interval}s`, {
-        description: "All automated engines synchronized to new clock cycle.",
-      })
-    }
+    setIsConfiguring(false)
+    toast.success(`Scanning interval updated to ${scanInterval}s`, {
+      description: "All automated engines synchronized to new clock cycle.",
+    })
   }
 
   const updateScanners = async () => {
@@ -95,13 +104,42 @@ export default function ScannersPage() {
                 Monitor {activeScanners}/5 automated market analysis engines with AI-powered signal detection
               </p>
             </div>
-            <Button
-              onClick={handleConfig}
-              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
-            >
-              <Settings className="w-4 h-4 mr-2" />
-              Configure
-            </Button>
+            <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
+              <DialogTrigger asChild>
+                <Button className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Configure
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="glass-effect border-primary/20">
+                <DialogHeader>
+                  <DialogTitle>Scanner Synchronization</DialogTitle>
+                  <DialogDescription>
+                    Adjust the analytical clock cycle for all institutional market scanners.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="py-4 space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="scan-interval">Scan Interval (Seconds)</Label>
+                    <div className="relative">
+                      <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Input
+                        id="scan-interval"
+                        type="number"
+                        value={scanInterval}
+                        onChange={(e) => setScanInterval(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Lower intervals increase resource load but provide faster signal detection.</p>
+                </div>
+                <DialogFooter>
+                  <Button variant="ghost" onClick={() => setIsConfiguring(false)}>Cancel</Button>
+                  <Button onClick={handleConfig}>Sync Engines</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="h-px bg-gradient-to-r from-primary/20 via-accent/10 to-transparent" />
         </div>

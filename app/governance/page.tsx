@@ -1,19 +1,30 @@
-"use client"
-
-import { AlertTriangle, Settings, Lock, Info } from "lucide-react"
+import { useState } from "react"
+import { AlertTriangle, Settings, Lock, Info, Plus } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Navigation from "@/components/navigation"
 import { toast } from "sonner"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function GovernancePage() {
+  const [isAddingRule, setIsAddingRule] = useState(false)
+  const [newRuleTitle, setNewRuleTitle] = useState("Volatility Circuit Breaker")
+
   const handleAddRule = () => {
-    const title = window.prompt("Enter new Governance Rule title:", "Volatility Circuit Breaker")
-    if (title) {
-      toast.info(`New governance rule proposal: ${title}`, {
-        description: "Rule has been queued for institutional audit and consensus verification.",
-      })
-    }
+    setIsAddingRule(false)
+    toast.info(`New governance rule proposal: ${newRuleTitle}`, {
+      description: "Rule has been queued for institutional audit and consensus verification.",
+    })
   }
 
   const rules = [
@@ -97,13 +108,40 @@ export default function GovernancePage() {
                 Configure risk management rules and automated trading constraints
               </p>
             </div>
-            <Button
-              onClick={handleAddRule}
-              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
-            >
-              <Settings className="w-4 h-4 mr-2" />
-              Add Rule
-            </Button>
+            <Dialog open={isAddingRule} onOpenChange={setIsAddingRule}>
+              <DialogTrigger asChild>
+                <Button className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Rule
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="glass-effect border-primary/20">
+                <DialogHeader>
+                  <DialogTitle>Propose Governance Rule</DialogTitle>
+                  <DialogDescription>
+                    Define a new risk constraint to be applied across all automated strategies.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="py-4 space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="rule-title">Rule Definition</Label>
+                    <Input
+                      id="rule-title"
+                      value={newRuleTitle}
+                      onChange={(e) => setNewRuleTitle(e.target.value)}
+                      placeholder="e.g. Volatility Circuit Breaker"
+                    />
+                  </div>
+                  <div className="p-3 bg-rose-400/10 rounded-lg border border-rose-400/20">
+                    <p className="text-xs text-rose-400">Requires institutional consensus and audit trail.</p>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="ghost" onClick={() => setIsAddingRule(false)}>Cancel</Button>
+                  <Button onClick={handleAddRule}>Submit Proposal</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="h-px bg-gradient-to-r from-primary/20 via-accent/10 to-transparent" />
         </div>

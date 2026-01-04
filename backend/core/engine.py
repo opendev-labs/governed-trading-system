@@ -16,12 +16,17 @@ from scanners.momentum_divergence import MomentumDivergenceScanner
 from scanners.support_resistance import SupportResistanceScanner
 from scanners.volume_profile import VolumeProfileScanner
 
-# Import bots
 from bots.vwap_mean_reversion import VWAPMeanReversionBot
 from bots.volatility_breakout import VolatilityBreakoutBot
 from bots.momentum_accumulation import MomentumAccumulationBot
 from bots.support_bounce import SupportBounceBot
 from bots.trend_following import TrendFollowingBot
+from bots.range_scalper import RangeScalperBot
+from bots.liquidity_sweep import LiquiditySweepBot
+from bots.session_open import SessionOpenBot
+from bots.funding_extremes import FundingExtremesBot
+from bots.correlation_break import CorrelationBreakBot
+from bots.no_trade_guardian import NoTradeGuardianBot
 
 
 class TradingEngine:
@@ -46,7 +51,13 @@ class TradingEngine:
             VolatilityBreakoutBot(self.symbols),
             MomentumAccumulationBot(self.symbols),
             SupportBounceBot(self.symbols),
-            TrendFollowingBot(self.symbols)
+            TrendFollowingBot(self.symbols),
+            RangeScalperBot(self.symbols),
+            LiquiditySweepBot(self.symbols),
+            SessionOpenBot(self.symbols),
+            FundingExtremesBot(self.symbols),
+            CorrelationBreakBot(self.symbols),
+            NoTradeGuardianBot(self.symbols)
         ]
         
         self.last_update = datetime.utcnow()
