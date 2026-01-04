@@ -1,69 +1,40 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { BarChart3, TrendingUp, Zap, Settings, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Navigation from "@/components/navigation"
+import { fetchScanners, toggleScanner } from "@/lib/api"
 
 export default function ScannersPage() {
-  const [scanners] = useState([
-    {
-      id: 1,
-      name: "Trend Alignment Scanner",
-      condition: "EMA 20 > EMA 50 > EMA 200",
-      signal: "BULLISH",
-      lastUpdate: "2m ago",
-      performance: "+12.4%",
-      status: "active",
-      confidence: 94,
-      signals: 12,
-    },
-    {
-      id: 2,
-      name: "Volatility Compression",
-      condition: "BB Squeeze detected",
-      signal: "READY",
-      lastUpdate: "45s ago",
-      performance: "+8.2%",
-      status: "active",
-      confidence: 87,
-      signals: 5,
-    },
-    {
-      id: 3,
-      name: "Momentum Divergence",
-      condition: "RSI < 30 & MACD Bullish",
-      signal: "OVERSOLD",
-      lastUpdate: "1m ago",
-      performance: "+5.6%",
-      status: "active",
-      confidence: 78,
-      signals: 3,
-    },
-    {
-      id: 4,
-      name: "Support/Resistance Break",
-      condition: "Price crosses key level",
-      signal: "WAITING",
-      lastUpdate: "3m ago",
-      performance: "-2.1%",
-      status: "inactive",
-      confidence: 62,
-      signals: 1,
-    },
-    {
-      id: 5,
-      name: "Volume Profile Analyst",
-      condition: "POC crossing detected",
-      signal: "NEUTRAL",
-      lastUpdate: "2m ago",
-      performance: "+1.3%",
-      status: "active",
-      confidence: 71,
-      signals: 2,
-    },
-  ])
+  const [scanners, setScanners] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const updateScanners = async () => {
+    try {
+      const data = await fetchScanners()
+      setScanners(data)
+      setLoading(false)
+    } catch (err) {
+      console.error("Failed to fetch scanners:", err)
+    }
+  }
+
+  useEffect(() => {
+    updateScanners()
+    const interval = setInterval(updateScanners, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const handleToggle = async (id: string) => {
+    try {
+      await toggleScanner(id)
+      updateScanners()
+    } catch (err) {
+      console.error("Failed to toggle scanner:", err)
+    }
+  }
 
   const getSignalColor = (signal: string) => {
     switch (signal) {
@@ -176,11 +147,10 @@ export default function ScannersPage() {
           {scanners.map((scanner) => (
             <Card
               key={scanner.id}
-              className={`glass-effect border smooth-transition cursor-pointer group ${
-                scanner.status === "active"
-                  ? "border-primary/30 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15"
-                  : "border-border opacity-60 hover:opacity-80"
-              }`}
+              className={`glass-effect border smooth-transition cursor-pointer group ${scanner.status === "active"
+                ? "border-primary/30 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15"
+                : "border-border opacity-60 hover:opacity-80"
+                }`}
             >
               <CardContent className="pt-6 pb-6">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -247,9 +217,10 @@ export default function ScannersPage() {
                       </Button>
                       <Button
                         size="sm"
-                        className="bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition"
+                        onClick={() => handleToggle(scanner.id)}
+                        className={scanner.status === "active" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary"}
                       >
-                        View
+                        {scanner.status === "active" ? "Pause" : "Start"}
                       </Button>
                     </div>
                   </div>

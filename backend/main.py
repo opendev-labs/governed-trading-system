@@ -1,11 +1,21 @@
-"""
-FastAPI main application for the trading system backend.
-"""
-from fastapi import FastAPI, WebSocket
-from fastapi.middleware.cors import CORSMiddleware
+import logging
+import os
 import asyncio
 import uvicorn
+from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+    handlers=[
+        logging.FileHandler("trading_system.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("api")
 
 from config.settings import settings
 from models.database import init_db

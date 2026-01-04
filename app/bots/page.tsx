@@ -1,79 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Zap, PauseCircle, PlayCircle, TrendingUp, Target, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Navigation from "@/components/navigation"
+import { fetchBots, toggleBot as apiToggleBot } from "@/lib/api"
 
 export default function BotsPage() {
-  const [bots, setBots] = useState([
-    {
-      id: 1,
-      name: "VWAP Mean Reversion",
-      strategy: "Mean Reversion",
-      status: "active",
-      risk: "LOW",
-      capital: "5%",
-      returns: "+24.5%",
-      trades: 12,
-      winRate: 72,
-      lastTrade: "2m ago",
-    },
-    {
-      id: 2,
-      name: "Volatility Compression",
-      strategy: "Breakout",
-      status: "paused",
-      risk: "HIGH",
-      capital: "0%",
-      returns: "-3.2%",
-      trades: 4,
-      winRate: 45,
-      lastTrade: "5d ago",
-    },
-    {
-      id: 3,
-      name: "Momentum Accumulation",
-      strategy: "Momentum",
-      status: "active",
-      risk: "MEDIUM",
-      capital: "3%",
-      returns: "+18.7%",
-      trades: 8,
-      winRate: 68,
-      lastTrade: "1m ago",
-    },
-    {
-      id: 4,
-      name: "Support Bounce",
-      strategy: "Reversal",
-      status: "inactive",
-      risk: "LOW",
-      capital: "0%",
-      returns: "+5.2%",
-      trades: 2,
-      winRate: 50,
-      lastTrade: "3d ago",
-    },
-    {
-      id: 5,
-      name: "Trend Following PRO",
-      strategy: "Trend",
-      status: "active",
-      risk: "MEDIUM",
-      capital: "4%",
-      returns: "+31.2%",
-      trades: 18,
-      winRate: 75,
-      lastTrade: "30s ago",
-    },
-  ])
+  const [bots, setBots] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const toggleBot = (id: number) => {
-    setBots(
-      bots.map((bot) => (bot.id === id ? { ...bot, status: bot.status === "active" ? "paused" : "active" } : bot)),
-    )
+  const updateBots = async () => {
+    try {
+      const data = await fetchBots()
+      setBots(data)
+      setLoading(false)
+    } catch (err) {
+      console.error("Failed to fetch bots:", err)
+    }
+  }
+
+  useEffect(() => {
+    updateBots()
+    const interval = setInterval(updateBots, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const handleToggle = async (id: string) => {
+    try {
+      await apiToggleBot(id)
+      updateBots()
+    } catch (err) {
+      console.error("Failed to toggle bot:", err)
+    }
   }
 
   const getRiskColor = (risk: string) => {
@@ -177,11 +137,10 @@ export default function BotsPage() {
           {bots.map((bot) => (
             <Card
               key={bot.id}
-              className={`glass-effect border smooth-transition group ${
-                bot.status === "active"
-                  ? "border-primary/30 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15"
-                  : "border-border opacity-60 hover:opacity-80"
-              }`}
+              className={`glass-effect border smooth-transition group ${bot.status === "active"
+                ? "border-primary/30 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15"
+                : "border-border opacity-60 hover:opacity-80"
+                }`}
             >
               <CardContent className="pt-6 pb-6">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -255,7 +214,7 @@ export default function BotsPage() {
                     </Button>
                     <Button
                       size="sm"
-                      onClick={() => toggleBot(bot.id)}
+                      onClick={() => handleToggle(bot.bot_id || bot.id)}
                       className={
                         bot.status === "active"
                           ? "bg-primary text-primary-foreground hover:bg-primary/90"

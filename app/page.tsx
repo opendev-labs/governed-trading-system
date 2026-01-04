@@ -8,17 +8,37 @@ import Navigation from "@/components/navigation"
 import HealthScore from "@/components/health-score"
 import SystemStatus from "@/components/system-status"
 import QuickStats from "@/components/quick-stats"
+import { fetchHealthScore, fetchSystemStatus, fetchQuickStats } from "@/lib/api"
 
 export default function Dashboard() {
-  const [healthScore, setHealthScore] = useState(78)
+  const [healthData, setHealthData] = useState({ score: 78, status: "OPTIMAL" })
+  const [systemStatus, setSystemStatus] = useState({
+    active_scanners: 5,
+    total_scanners: 5,
+    active_bots: 3,
+    total_bots: 10,
+    portfolio_value: 0
+  })
+  const [stats, setStats] = useState<any>(null)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setHealthScore((prev) => {
-        const change = (Math.random() - 0.5) * 4
-        return Math.max(0, Math.min(100, prev + change))
-      })
-    }, 5000)
+    const updateData = async () => {
+      try {
+        const [health, status, quickStats] = await Promise.all([
+          fetchHealthScore(),
+          fetchSystemStatus(),
+          fetchQuickStats()
+        ])
+        setHealthData(health)
+        setSystemStatus(status)
+        setStats(quickStats)
+      } catch (err) {
+        console.error("Failed to update dashboard data:", err)
+      }
+    }
+
+    updateData()
+    const interval = setInterval(updateData, 5000)
     return () => clearInterval(interval)
   }, [])
 
@@ -49,7 +69,7 @@ export default function Dashboard() {
 
         {/* Health Score - Hero */}
         <div className="mb-10">
-          <HealthScore score={healthScore} />
+          <HealthScore score={healthData.score} />
         </div>
 
         {/* System Overview Grid */}
@@ -65,15 +85,15 @@ export default function Dashboard() {
             />
             <SystemStatus
               title="System Health"
-              status={healthScore > 70 ? "OPTIMAL" : "CAUTION"}
-              detail={`Score: ${Math.round(healthScore)}/100`}
+              status={healthData.status}
+              detail={`Score: ${Math.round(healthData.score)}/100`}
               icon={Activity}
-              color={healthScore > 70 ? "text-emerald-400" : "text-yellow-400"}
+              color={healthData.score > 70 ? "text-emerald-400" : "text-yellow-400"}
             />
             <SystemStatus
               title="Active Positions"
-              status="3 / 10"
-              detail="2 scanners active, 3 bots enabled"
+              status={`${systemStatus.active_bots} / ${systemStatus.total_bots}`}
+              detail={`${systemStatus.active_scanners} scanners active, ${systemStatus.active_bots} bots enabled`}
               icon={Zap}
               color="text-cyan-400"
             />
@@ -83,7 +103,7 @@ export default function Dashboard() {
         {/* Quick Stats */}
         <div className="mb-10">
           <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">Key Metrics</h2>
-          <QuickStats />
+          <QuickStats data={stats} />
         </div>
 
         {/* Module Navigation */}

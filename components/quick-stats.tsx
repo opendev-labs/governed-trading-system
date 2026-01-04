@@ -1,11 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { BarChart3, TrendingUp, Target, Zap, AlertTriangle, Shield } from "lucide-react"
 
-export default function QuickStats() {
+export default function QuickStats({ data }: { data: any }) {
   const stats = [
     {
       title: "Active Scanners",
-      value: "5/5",
+      value: data ? `${data.active_scanners || 5}/5` : "5/5",
       subtitle: "Market analysis running",
       icon: BarChart3,
       color: "text-cyan-400",
@@ -13,7 +13,7 @@ export default function QuickStats() {
     },
     {
       title: "Active Bots",
-      value: "3/10",
+      value: data ? `${data.active_bots || 3}/10` : "3/10",
       subtitle: "Automated traders online",
       icon: Zap,
       color: "text-emerald-400",
@@ -21,27 +21,27 @@ export default function QuickStats() {
     },
     {
       title: "Performance",
-      value: "68%",
+      value: data ? `${Math.round(data.win_rate || 68)}%` : "68%",
       subtitle: "Win rate (30d avg)",
       icon: Target,
       color: "text-blue-400",
-      trend: "+4.2%",
+      trend: data ? `${data.total_pnl_pct >= 0 ? '+' : ''}${data.total_pnl_pct.toFixed(2)}%` : "+4.2%",
     },
     {
       title: "Risk Level",
-      value: "MEDIUM",
-      subtitle: "Portfolio DD: 4.2%",
+      value: data ? (data.max_drawdown > 10 ? "CRITICAL" : data.max_drawdown > 5 ? "HIGH" : "MEDIUM") : "MEDIUM",
+      subtitle: `Portfolio DD: ${data ? data.max_drawdown.toFixed(2) : '4.2'}%`,
       icon: AlertTriangle,
       color: "text-yellow-400",
       trend: "Monitored",
     },
     {
       title: "Capital Deployed",
-      value: "$487K",
+      value: data ? `$${Math.round(data.portfolio_value / 1000)}K` : "$487K",
       subtitle: "Active positions",
       icon: Shield,
       color: "text-primary",
-      trend: "67% of max",
+      trend: `${data ? Math.round(data.exposure_pct) : '67'}% of max`,
     },
     {
       title: "Data Freshness",
