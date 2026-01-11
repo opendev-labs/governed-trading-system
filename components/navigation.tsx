@@ -8,10 +8,12 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
+    { label: "Master Hub", href: "/master", icon: "💎" },
     { label: "Dashboard", href: "/", icon: "📊" },
-    { label: "Scanners", href: "/scanners", icon: "🔍" },
+    { label: "Tools", href: "/scanners", icon: "🔍" },
     { label: "Bots", href: "/bots", icon: "🤖" },
     { label: "Governance", href: "/governance", icon: "⚖️" },
+    { label: "Google Sheets", href: "https://docs.google.com/spreadsheets", icon: "📋" },
     { label: "Logs", href: "/logs", icon: "📝" },
   ]
 

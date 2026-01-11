@@ -136,64 +136,104 @@ export default function Dashboard() {
               </div>
             </CardContent>
           </Card>
+        </div>
 
-          {/* Status Panel */}
-          <Card className="glass-effect border-border">
+        {/* Status Panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+          <Card className="glass-effect border-primary/20 bg-gradient-to-br from-primary/5 to-transparent col-span-1 lg:col-span-2">
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                System Status
+              <CardTitle className="text-xl flex items-center gap-3">
+                <Sparkles className="w-6 h-6 text-primary" />
+                Institutional Control Plane
               </CardTitle>
+              <CardDescription>High-precision execution and governance overview</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">All Systems</span>
-                <span className="text-emerald-400 font-semibold">OPERATIONAL</span>
-              </div>
-              <div className="h-px bg-border/50" />
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Data Feed</span>
-                <span className="text-emerald-400">Live</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">API Latency</span>
-                <span className="text-cyan-400">12ms</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Uptime</span>
-                <span className="text-emerald-400">99.98%</span>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Encryption Status</span>
+                    <span className="text-emerald-400 font-mono font-bold">AES-256 ACTIVE</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Quantum Pulse</span>
+                    <span className="text-cyan-400 font-mono">1.2ms SYNCHRONIZED</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Institutional Node</span>
+                    <span className="text-primary font-mono">GLOBAL-ALPHA-01</span>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center gap-3">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 font-bold py-6">
+                    <Zap className="w-5 h-5 mr-2" />
+                    ACTIVATE EMERGENCY STOP
+                  </Button>
+                  <Button variant="outline" className="w-full border-emerald-400/30 hover:bg-emerald-400/5 text-emerald-400 font-bold py-6" asChild>
+                    <a href="https://docs.google.com/spreadsheets" target="_blank">
+                      <BarChart3 className="w-5 h-5 mr-2" />
+                      OPEN LIVE GOOGLE SHEET
+                    </a>
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Performance Card */}
           <Card className="glass-effect border-border">
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-400" />
-                Performance
+                Capital Performance
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Monthly Return</span>
-                <span className="text-emerald-400 font-semibold">+12.4%</span>
+            <CardContent className="space-y-4">
+              <div className="flex justify-between items-end">
+                <p className="text-3xl font-bold text-emerald-400">+12.4%</p>
+                <p className="text-xs text-muted-foreground pb-1">30-day Alpha</p>
               </div>
-              <div className="h-px bg-border/50" />
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Max Drawdown</span>
-                <span className="text-yellow-400">-4.2%</span>
+              <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                <div className="h-full bg-emerald-400 w-[72%]" />
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Sharpe Ratio</span>
-                <span className="text-cyan-400">2.8</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Sortino Ratio</span>
-                <span className="text-primary">4.2</span>
+              <div className="grid grid-cols-2 gap-4 text-xs">
+                <div>
+                  <p className="text-muted-foreground mb-1">Sharpe Ratio</p>
+                  <p className="font-bold text-cyan-400 text-lg">2.84</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground mb-1">Max Drawdown</p>
+                  <p className="font-bold text-rose-400 text-lg">-4.2%</p>
+                </div>
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Module Navigation */}
+        <div className="mb-10">
+          <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-[0.2em] mb-6 opacity-60">Strategic Modules</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                name: "Market Intel",
+                href: "/scanners",
+                desc: "Institutional scanning engines",
+                icon: "⚛️",
+                color: "group-hover:text-primary"
+              },
+              { name: "Alpha Agents", href: "/bots", desc: "Proprietary execution bots", icon: "🧬", color: "group-hover:text-cyan-400" },
+              { name: "Risk Guardian", href: "/governance", desc: "Automated capital protection", icon: "🛡️", color: "group-hover:text-emerald-400" },
+              { name: "Terminal Logs", href: "/logs", desc: "Raw transaction telemetry", icon: "📟", color: "group-hover:text-rose-400" },
+            ].map((module) => (
+              <a key={module.href} href={module.href} className="group">
+                <div className="glass-effect border border-border hover:border-primary/50 p-6 rounded-xl smooth-transition hover:shadow-2xl hover:shadow-primary/10">
+                  <div className="text-3xl mb-4 transform group-hover:scale-110 smooth-transition">{module.icon}</div>
+                  <h3 className={`font-bold mb-1 smooth-transition ${module.color}`}>{module.name}</h3>
+                  <p className="text-xs text-muted-foreground line-clamp-2">{module.desc}</p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </main>
     </div>

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import TradingViewWidget from "@/components/tradingview-widget"
 
 export default function ScannersPage() {
   const [scanners, setScanners] = useState<any[]>([])
@@ -90,197 +91,161 @@ export default function ScannersPage() {
   const activeScanners = scanners.filter((s) => s.status === "active").length
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       <Navigation />
 
-      <main className="p-6 md:p-8 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="flex flex-col sm:flex-row justify-between items-start gap-6 mb-6">
+      <main className="p-6 md:p-8 space-y-10">
+        {/* Institutional Header */}
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
-                <BarChart3 className="w-8 h-8 sm:w-9 sm:h-9 text-primary" />
-                Market Scanners
+              <div className="flex items-center gap-2 mb-2">
+                <div className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/20 rounded text-[10px] font-bold text-emerald-400 uppercase tracking-widest">
+                  Live Market Intelligence
+                </div>
+                <div className="px-2 py-0.5 bg-primary/10 border border-primary/20 rounded text-[10px] font-bold text-primary uppercase tracking-widest">
+                  Quantum Sync Active
+                </div>
+              </div>
+              <h1 className="text-4xl font-black tracking-tight flex items-center gap-3 italic">
+                STRATEGIC SCANNERS
               </h1>
-              <p className="text-muted-foreground text-sm max-w-xl">
-                Monitor {activeScanners}/5 automated market analysis engines with AI-powered signal detection
+              <p className="text-muted-foreground text-sm max-w-xl font-medium">
+                Autonomous scanning engines monitoring {activeScanners} global liquidity nodes for institutional alpha.
               </p>
             </div>
-            <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
-              <DialogTrigger asChild>
-                <Button className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 smooth-transition">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Configure
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="glass-effect border-primary/20">
-                <DialogHeader>
-                  <DialogTitle>Scanner Synchronization</DialogTitle>
-                  <DialogDescription>
-                    Adjust the analytical clock cycle for all institutional market scanners.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="py-4 space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="scan-interval">Scan Interval (Seconds)</Label>
-                    <div className="relative">
-                      <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input
-                        id="scan-interval"
-                        type="number"
-                        value={scanInterval}
-                        onChange={(e) => setScanInterval(e.target.value)}
-                        className="pl-10"
-                      />
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Lower intervals increase resource load but provide faster signal detection.</p>
-                </div>
-                <DialogFooter>
-                  <Button variant="ghost" onClick={() => setIsConfiguring(false)}>Cancel</Button>
-                  <Button onClick={handleConfig}>Sync Engines</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <div className="h-px bg-gradient-to-r from-primary/20 via-accent/10 to-transparent" />
-        </div>
 
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
-          <Card className="glass-effect border-border">
-            <CardContent className="pt-5 pb-4">
-              <div className="flex justify-between items-start mb-3">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Active</span>
-                <Zap className="w-4 h-4 text-primary opacity-50" />
-              </div>
-              <p className="text-3xl font-bold text-primary mb-1">{activeScanners}/5</p>
-              <p className="text-xs text-muted-foreground">Scanners online</p>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-effect border-border">
-            <CardContent className="pt-5 pb-4">
-              <div className="flex justify-between items-start mb-3">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Total Signals</span>
-                <Activity className="w-4 h-4 text-cyan-400 opacity-50" />
-              </div>
-              <p className="text-3xl font-bold text-cyan-400 mb-1">23</p>
-              <p className="text-xs text-muted-foreground">Generated today</p>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-effect border-border">
-            <CardContent className="pt-5 pb-4">
-              <div className="flex justify-between items-start mb-3">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                  Avg Confidence
-                </span>
-                <TrendingUp className="w-4 h-4 text-emerald-400 opacity-50" />
-              </div>
-              <p className="text-3xl font-bold text-emerald-400 mb-1">82%</p>
-              <p className="text-xs text-muted-foreground">Accuracy rate</p>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-effect border-border">
-            <CardContent className="pt-5 pb-4">
-              <div className="flex justify-between items-start mb-3">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Performance</span>
-                <span className="text-xs font-bold text-emerald-400">+24.8%</span>
-              </div>
-              <p className="text-3xl font-bold text-emerald-400 mb-1">+24.8%</p>
-              <p className="text-xs text-muted-foreground">30-day returns</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Scanner Cards */}
-        <div className="space-y-4">
-          {scanners.map((scanner) => (
-            <Card
-              key={scanner.id}
-              className={`glass-effect border smooth-transition cursor-pointer group ${scanner.status === "active"
-                ? "border-primary/30 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15"
-                : "border-border opacity-60 hover:opacity-80"
-                }`}
-            >
-              <CardContent className="pt-6 pb-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  {/* Left Section */}
-                  <div className="flex-1">
-                    <div className="flex items-start gap-3 mb-3">
-                      <div
-                        className={`w-2.5 h-2.5 rounded-full mt-1 ${scanner.status === "active" ? "bg-emerald-400" : "bg-muted"}`}
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-1 group-hover:text-primary smooth-transition">
-                          {scanner.name}
-                        </h3>
-                        <p className="text-xs font-mono text-muted-foreground/70">{scanner.condition}</p>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="outline" className="border-emerald-400/30 text-emerald-400 hover:bg-emerald-400/5 font-bold" asChild>
+                <a href="https://docs.google.com/spreadsheets" target="_blank">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  VIEW LEDGER
+                </a>
+              </Button>
+              <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
+                <DialogTrigger asChild>
+                  <Button variant="secondary" className="font-bold">
+                    <Settings className="w-4 h-4 mr-2" />
+                    ENGINE CONFIG
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="glass-effect border-primary/20">
+                  <DialogHeader>
+                    <DialogTitle>Quantum Engine Synchronization</DialogTitle>
+                    <DialogDescription>
+                      Adjust the analytical frequency for high-speed market intelligence.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="py-4 space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="scan-interval">Intelligence Frequency (Seconds)</Label>
+                      <div className="relative">
+                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="scan-interval"
+                          type="number"
+                          value={scanInterval}
+                          onChange={(e) => setScanInterval(e.target.value)}
+                          className="pl-10"
+                        />
                       </div>
                     </div>
                   </div>
+                  <DialogFooter>
+                    <Button variant="ghost" onClick={() => setIsConfiguring(false)}>Cancel</Button>
+                    <Button onClick={handleConfig} className="bg-primary text-primary-foreground">SYNC PULSE</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        </div>
 
-                  {/* Middle Section - Signal */}
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`px-3 py-2 rounded-md border font-bold text-sm ${getSignalColor(scanner.signal)} ${getSignalBg(scanner.signal)}`}
-                    >
+        {/* Immersive TradingView Chart */}
+        <div className="w-full">
+          <Card className="glass-effect border-border overflow-hidden shadow-2xl shadow-primary/5 rounded-none border-x-0 lg:rounded-2xl lg:border-x">
+            <CardContent className="p-0">
+              <div className="h-[650px] w-full">
+                <TradingViewWidget />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Intelligence Engines Grid */}
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4 mb-8">
+            <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-[0.3em] opacity-60">Intelligence Engines</h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {scanners.map((scanner) => (
+              <Card
+                key={scanner.id}
+                className={`glass-effect border smooth-transition group relative overflow-hidden ${scanner.status === "active"
+                  ? "border-primary/20 hover:border-primary/50 shadow-lg shadow-black/20"
+                  : "border-border/50 opacity-40 grayscale"
+                  }`}
+              >
+                {/* Status Indicator Bar */}
+                <div className={`absolute top-0 left-0 right-0 h-1 ${scanner.status === "active" ? "bg-primary" : "bg-muted"}`} />
+
+                <CardContent className="pt-8 pb-6 space-y-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-black text-xl tracking-tight uppercase group-hover:text-primary smooth-transition leading-none mb-1">
+                        {scanner.name.replace("Scanner", "")}
+                      </h3>
+                      <p className="text-[10px] font-mono text-muted-foreground/60 uppercase tracking-widest">{scanner.condition}</p>
+                    </div>
+                    <div className={`px-2 py-1 rounded text-[10px] font-black tracking-tighter border ${getSignalColor(scanner.signal)} ${getSignalBg(scanner.signal)}`}>
                       {scanner.signal}
                     </div>
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground">{scanner.lastUpdate}</p>
-                      <p className="text-xs font-mono text-primary/70">{scanner.signals} signals</p>
-                    </div>
                   </div>
 
-                  {/* Right Section - Stats */}
-                  <div className="flex items-center gap-6">
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground mb-1">Confidence</p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-primary to-accent"
-                            style={{ width: `${scanner.confidence}%` }}
-                          />
-                        </div>
-                        <span className="text-sm font-bold text-primary">{scanner.confidence}%</span>
-                      </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase opacity-60">Confidence</p>
+                      <p className="text-xl font-mono font-bold text-primary">{scanner.confidence}%</p>
                     </div>
-
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground mb-1">30d Return</p>
-                      <p
-                        className={`text-sm font-bold ${Number.parseFloat(scanner.performance) > 0 ? "text-emerald-400" : "text-rose-400"}`}
-                      >
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase opacity-60">30d Alpha</p>
+                      <p className={`text-xl font-mono font-bold ${Number.parseFloat(scanner.performance) > 0 ? "text-emerald-400" : "text-rose-400"}`}>
                         {scanner.performance}
                       </p>
                     </div>
+                  </div>
 
-                    {/* Actions */}
+                  <div className="pt-4 flex items-center justify-between border-t border-border/50">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest opacity-60">Node Pulse</span>
+                      <span className="text-[10px] font-mono text-primary/80">{scanner.lastUpdate}</span>
+                    </div>
                     <div className="flex gap-2">
                       <Button
-                        variant="outline"
                         size="sm"
-                        className="border-border hover:border-primary/50 hover:bg-primary/5 bg-transparent smooth-transition"
+                        variant="ghost"
+                        className="h-8 px-3 text-[10px] font-bold uppercase tracking-widest border border-border hover:border-primary/50"
                       >
-                        Analyze
+                        ANALYZE
                       </Button>
                       <Button
                         size="sm"
                         onClick={() => handleToggle(scanner.id)}
-                        className={scanner.status === "active" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary"}
+                        className={`h-8 px-4 text-[10px] font-black uppercase tracking-widest ${scanner.status === "active"
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : "bg-secondary"
+                          }`}
                       >
-                        {scanner.status === "active" ? "Pause" : "Start"}
+                        {scanner.status === "active" ? "PAUSE" : "ENGAGE"}
                       </Button>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </main>
     </div>

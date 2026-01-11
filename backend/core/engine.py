@@ -8,6 +8,8 @@ from config.settings import settings
 from core.portfolio import portfolio
 from governance.risk_manager import risk_manager
 from utils.market_data import market_data
+from utils.google_sheets import sheets_sync
+from utils.notifications import notifier
 
 # Import scanners
 from scanners.trend_alignment import TrendAlignmentScanner
@@ -112,6 +114,35 @@ class TradingEngine:
                 await self.update_health_score()
                 
                 self.last_update = datetime.utcnow()
+                
+                # Sync to Google Sheets
+                try:
+                    scanners_status = [s.get_status() for s in self.scanners]
+                    sheets_sync.sync_scanners(scanners_status)
+                    
+                    if all_signals:
+                        # Convert signal objects to dicts for sync
+                        signals_data = []
+                        for sig in all_signals:
+                            signals_data.append({
+                                'timestamp': sig.timestamp.isoformat() if hasattr(sig, 'timestamp') else datetime.utcnow().isoformat(),
+                                'symbol': sig.symbol,
+                                'signal_type': sig.signal_type,
+                                'confidence': sig.confidence,
+                                'price': sig.price,
+                                'condition': sig.condition
+                            })
+                            # Broadcast to Telegram/Discord
+                            notifier.broadcast_signal({
+                                'symbol': sig.symbol,
+                                'signal_type': sig.signal_type,
+                                'confidence': sig.confidence,
+                                'price': sig.price,
+                                'condition': sig.condition
+                            })
+                        sheets_sync.sync_signals(signals_data)
+                except Exception as sync_err:
+                    print(f"Error during Google Sheets sync: {sync_err}")
                 
                 # Wait before next iteration
                 await asyncio.sleep(settings.data_update_interval)

@@ -11,3 +11,6 @@ pydantic-settings==2.6.1
 python-dotenv==1.0.1
 aiohttp==3.11.11
 python-multipart==0.0.20
+google-api-python-client==2.155.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1

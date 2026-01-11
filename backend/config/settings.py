@@ -30,6 +30,15 @@ class Settings(BaseSettings):
     enable_paper_trading: bool = True
     enable_risk_checks: bool = True
     
+    # Google Sheets Integration
+    google_sheet_id: str = ""
+    google_sheets_credentials_file: str = "backend/config/credentials.json"
+    
+    # Messaging Integrations
+    telegram_bot_token: str = ""
+    telegram_chat_id: str = ""
+    discord_webhook_url: str = ""
+    
     class Config:
         env_file = ".env"
         case_sensitive = False
