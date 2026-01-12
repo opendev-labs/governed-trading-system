@@ -8,13 +8,12 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
-    { label: "Master Hub", href: "/master", icon: "💎" },
-    { label: "Dashboard", href: "/", icon: "📊" },
-    { label: "Tools", href: "/scanners", icon: "🔍" },
-    { label: "Bots", href: "/bots", icon: "🤖" },
-    { label: "Governance", href: "/governance", icon: "⚖️" },
-    { label: "Google Sheets", href: "https://docs.google.com/spreadsheets", icon: "📋" },
-    { label: "Logs", href: "/logs", icon: "📝" },
+    { label: "Home", href: "/", icon: "🏠" },
+    { label: "Screeners", href: "/screeners", icon: "🔍" },
+    { label: "Discord", href: "/discord", icon: "💬" },
+    { label: "Sheets", href: "/google-sheets", icon: "📊" },
+    { label: "Pricing", href: "/pricing", icon: "💰" },
+    { label: "Master", href: "/master", icon: "🔐" },
   ]
 
   return (
@@ -25,8 +24,8 @@ export default function Navigation() {
           <div className="flex items-center gap-4">
             <img src="/icon.svg" alt="Logo" className="w-9 h-9 rounded-md shadow-lg shadow-primary/20" />
             <div className="hidden sm:flex flex-col">
-              <span className="font-bold text-sm leading-none">Governed Trading</span>
-              <span className="text-xs text-muted-foreground">Professional System</span>
+              <span className="font-bold text-sm leading-none">ScanTrade</span>
+              <span className="text-xs text-muted-foreground">Simple Alerts</span>
             </div>
           </div>
 
