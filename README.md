@@ -65,11 +65,13 @@ Powered by **NextAuth.js**, ensuring your intelligence data remains non-custodia
 
 2. **Run Local Console**:
    ```bash
-   ./open-dev-npm.sh
+   ./open-npm-dev.sh
    ```
 
-3. **Production Access**:
-   Access the node at `http://localhost:3000`. Use `admin@scantrade.com` / `admin123` for initial setup.
+3. **Production Deployment**:
+   ```bash
+   ./open-dep-prod.sh
+   ```
 
 ---
 
