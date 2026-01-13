@@ -58,6 +58,11 @@ export default function MasterHub() {
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-4">
+                    <div className="hidden lg:flex items-center gap-2 px-2 py-1 rounded bg-white/5 border border-white/10 h-10 sm:h-11 mr-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        <span className="text-[9px] font-mono text-white/40 tracking-wider">READ-WRITE ACTIVE</span>
+                    </div>
+
                     <Button
                         onClick={handleManualSync}
                         disabled={isSyncing}
@@ -118,23 +123,16 @@ export default function MasterHub() {
 
                 {/* Right: The Core Ledger */}
                 <div className={`flex-[4] flex-col bg-zinc-950/40 relative transition-all duration-500 ${activeTab === 'ledger' ? 'flex' : 'hidden lg:flex'}`}>
-                    <div className="px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-between border-b border-white/5 bg-zinc-900/20 backdrop-blur-sm">
-                        <div className="flex items-center gap-3">
-                            <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                                <BarChart3 className="w-4 h-4 text-emerald-400" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">Signals</span>
-                                <span className="text-sm font-bold tracking-tight">Active Log</span>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2 px-2 py-1 rounded bg-white/5 border border-white/10">
-                            <div className="w-1 h-1 rounded-full bg-emerald-400 animate-ping" />
-                            <span className="text-[8px] font-mono text-white/40">READ-WRITE ACTIVE</span>
+                    {/* Floating Header (Matching Left Side) */}
+                    <div className="absolute top-4 left-6 z-10 flex items-center gap-3">
+                        <div className="bg-black/80 backdrop-blur-md border border-emerald-500/20 px-3 py-1.5 rounded-md flex items-center gap-2 shadow-2xl">
+                            <BarChart3 className="w-3 h-3 text-emerald-400" />
+                            <span className="text-[9px] font-black text-white/90 uppercase tracking-widest">Active Log</span>
                         </div>
                     </div>
-                    <div className="flex-1 w-full bg-white/5 relative group p-2 sm:p-4">
-                        <div className="absolute inset-2 sm:inset-4 border border-white/5 rounded-xl overflow-hidden shadow-2xl bg-white">
+
+                    <div className="w-full h-full p-2">
+                        <div className="w-full h-full rounded-xl overflow-hidden border border-white/5 bg-white shadow-inner relative">
                             <iframe
                                 src={embedUrl}
                                 className="absolute inset-0 w-full h-full border-0 brightness-[0.98] contrast-[1.02]"
