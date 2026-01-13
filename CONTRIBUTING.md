@@ -1,6 +1,6 @@
-# Contributing to Governed Trading System
+# Contributing to ScanTrade
 
-Thank you for your interest in contributing to the Governed Trading System! We welcome contributions from the community.
+First off, thank you for considering contributing to ScanTrade! It's people like you that make ScanTrade such a great tool.
 
 ## How to Contribute
 

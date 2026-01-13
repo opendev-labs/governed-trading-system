@@ -75,7 +75,7 @@ app.include_router(logs.router, prefix="/api/logs", tags=["logs"])
 async def root():
     """Root endpoint."""
     return {
-        "message": "Governed Trading System API",
+        "message": "ScanTrade API",
         "version": "1.0.0",
         "status": "running"
     }
