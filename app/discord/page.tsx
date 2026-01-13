@@ -83,7 +83,7 @@ export default function DiscordPage() {
                 </div>
 
                 <a
-                    href="https://discord.com/oauth2/authorize?client_id=1460333588431114301&permissions=2147483648&scope=bot%20applications.commands"
+                    href="https://discord.com/oauth2/authorize?client_id=1460333588431114301&permissions=2684354592&scope=bot%20applications.commands"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

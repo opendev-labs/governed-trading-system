@@ -1,15 +1,37 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="180" height="180" rx="40" fill="#020617"/>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="emerald_gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="pulse_gradient" x1="256" y1="128" x2="256" y2="384" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ecfdf5" />
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Container -->
+  <rect x="0" y="0" width="512" height="512" rx="128" fill="#020202" />
   
-  <!-- Outer Ring/Shield -->
-  <path d="M90 35L145 60V100C145 130 120 155 90 162C60 155 35 130 35 100V60L90 35Z" stroke="#3b82f6" stroke-width="4" fill="#3b82f6" fill-opacity="0.05"/>
-  
-  <!-- Abstract 'G' + 'T' + Chart Line -->
-  <path d="M60 100 L80 80 L100 110 L130 70 M130 70 V110 M130 110 H110" 
-        stroke="#60a5fa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  
-  <!-- Glow effect -->
-  <circle cx="130" cy="70" r="4" fill="#60a5fa">
-    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
+  <!-- Outer Ring (Radar Scope) -->
+  <circle cx="256" cy="256" r="160" stroke="url(#emerald_gradient)" stroke-width="12" stroke-opacity="0.3" />
+  <circle cx="256" cy="256" r="110" stroke="#34d399" stroke-width="4" stroke-opacity="0.2" stroke-dasharray="20 10" />
+
+  <!-- The "Scan" Sweep -->
+  <path d="M256 256 L416 256 A160 160 0 0 0 256 96" fill="url(#pulse_gradient)" fill-opacity="0.4" style="mix-blend-mode: screen;" />
+
+  <!-- Center Pulse Dot -->
+  <circle cx="256" cy="256" r="24" fill="#10b981" filter="url(#glow)">
+    <animate attributeName="r" values="24;32;24" dur="2s" repeatCount="indefinite" />
+    <animate attributeName="fill-opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Signal Blip (Target) -->
+  <circle cx="360" cy="180" r="16" fill="#facc15" filter="url(#glow)">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.5s" />
   </circle>
 </svg>
