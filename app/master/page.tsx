@@ -1,193 +1,189 @@
 "use client"
 
-import { useState } from "react"
-import Navigation from "@/components/navigation"
+import { useState, useEffect } from "react"
+import TradingViewWidget from "@/components/tradingview-widget"
+import { MissionControl } from "@/components/mission-control"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ExternalLink, RefreshCw, Terminal } from "lucide-react"
 import { toast } from "sonner"
-import { Shield, Zap, CheckCircle2, AlertTriangle, Play } from "lucide-react"
 
 export default function MasterPage() {
-    const [webhookUrl, setWebhookUrl] = useState("")
-    const [alertName, setAlertName] = useState("")
-    const [isTesting, setIsTesting] = useState(false)
-    const [savedWebhooks, setSavedWebhooks] = useState<{ name: string, url: string }[]>([])
+    // Config State
+    const [sheetId, setSheetId] = useState("1CStqiA404-7jfAV_wwcZMVy_pXLEDe2r8xj1XRdA-dg")
+    const [symbol, setSymbol] = useState("BTCUSDT")
 
-    // In a real app, we would fetch saved webhooks from the DB here
+    // Load initial state
+    useEffect(() => {
+        const savedSheet = localStorage.getItem("scantrade_sheet_id")
+        const savedSymbol = localStorage.getItem("scantrade_symbol")
+        if (savedSheet) setSheetId(savedSheet)
+        if (savedSymbol) setSymbol(savedSymbol)
+    }, [])
 
-    async function handleTestWebhook() {
-        if (!webhookUrl) {
-            toast.error("Please enter a Webhook URL")
-            return
-        }
-
-        setIsTesting(true)
-        try {
-            const res = await fetch("/api/webhooks/test", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ webhookUrl, name: alertName || "Test Alert" })
-            })
-
-            const data = await res.json()
-
-            if (data.success) {
-                toast.success("Test alert sent! Check your Discord.")
-                // Mock saving
-                if (!savedWebhooks.find(w => w.url === webhookUrl)) {
-                    setSavedWebhooks([...savedWebhooks, { name: alertName || "New Alert", url: webhookUrl }])
-                }
-                setWebhookUrl("") // Clear input for security
-                setAlertName("")
-            } else {
-                toast.error(`Failed: ${data.error}`)
-            }
-        } catch (err) {
-            toast.error("Network error. Check console.")
-            console.error(err)
-        } finally {
-            setIsTesting(false)
-        }
+    const handleConfigChange = (config: { sheetId: string, symbol: string }) => {
+        setSheetId(config.sheetId)
+        setSymbol(config.symbol)
     }
 
-    return (
-        <div className="min-h-screen bg-[#020202] text-white selection:bg-emerald-500/30 font-sans">
-            <Navigation />
+    // Scanner State
+    const [scanResults, setScanResults] = useState<any[]>([])
 
-            <main className="container mx-auto px-6 py-12">
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h1 className="text-3xl font-black mb-2 flex items-center gap-2">
-                            <Shield className="w-8 h-8 text-emerald-500" />
-                            Master Dashboard
+    // Load initial state and poll for updates
+    useEffect(() => {
+        const loadScanResults = () => {
+            const saved = localStorage.getItem("scantrade_latest_scan")
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved)
+                    setScanResults(parsed)
+                } catch (e) {
+                    console.error("Failed to parse scan results", e)
+                }
+            }
+        }
+
+        loadScanResults()
+        const interval = setInterval(loadScanResults, 2000) // Poll every 2s
+        return () => clearInterval(interval)
+    }, [])
+
+    return (
+        <div className="flex flex-col h-full bg-transparent overflow-hidden">
+            {/* Main Navigation */}
+            {/* Main Navigation - Removed (Global) */}
+
+            {/* Sub-Header / Tool Bar - Postman Style */}
+            <div className="h-[44px] border-b border-border bg-[#050505] flex items-center justify-between px-4 shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-primary/10 rounded-sm flex items-center justify-center border border-primary/20">
+                            <Terminal className="w-3.5 h-3.5 text-primary" />
+                        </div>
+                        <h1 className="text-sm font-bold tracking-tight text-white/90">
+                            Master View <span className="text-zinc-600 font-normal mx-1">/</span> <span className="text-zinc-400 font-mono text-[11px]">{symbol}</span>
                         </h1>
-                        <p className="text-white/40">Manage your alerts and integrations.</p>
                     </div>
-                    <div className="bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">System Active</span>
+
+                    <div className="h-4 w-px bg-border mx-1" />
+
+                    <div className="hidden md:flex items-center gap-2">
+                        <div className="px-1.5 py-0.5 rounded-sm bg-primary/5 border border-primary/10 flex items-center gap-1.5">
+                            <div className="w-1 h-1 rounded-full bg-primary animate-pulse shadow-[0_0_5px_var(--primary)]" />
+                            <span className="text-[9px] font-bold text-primary/80 uppercase tracking-widest">Live Engine</span>
+                        </div>
+                        {scanResults.length > 0 && (
+                            <div className="px-1.5 py-0.5 rounded-sm bg-zinc-800 border border-border flex items-center gap-2">
+                                <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">{scanResults.length} Signals</span>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Left Column: Captain Hook */}
-                    <div className="lg:col-span-2 space-y-6">
+                <div className="flex items-center gap-2">
+                    <MissionControl onConfigChange={handleConfigChange} />
 
-                        {/* New Webhook Card */}
-                        <Card className="bg-[#111] border-white/10">
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Zap className="w-5 h-5 text-yellow-400" />
-                                    Add New Alert
-                                </CardTitle>
-                                <CardDescription>Connect a Discord Channel via Captain Hook 🪝</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="space-y-2">
-                                    <Label>Alert Name</Label>
-                                    <Input
-                                        placeholder="e.g. BTC Breakouts"
-                                        className="bg-black/50 border-white/10 text-white placeholder:text-white/20"
-                                        value={alertName}
-                                        onChange={(e) => setAlertName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Discord Webhook URL</Label>
-                                    <Input
-                                        placeholder="https://discord.com/api/webhooks/..."
-                                        type="password"
-                                        className="bg-black/50 border-white/10 text-white placeholder:text-white/20 font-mono text-sm"
-                                        value={webhookUrl}
-                                        onChange={(e) => setWebhookUrl(e.target.value)}
-                                    />
-                                    <p className="text-xs text-white/30">
-                                        Go to Discord Channel Settings → Integrations → Webhooks
-                                    </p>
-                                </div>
-                                <div className="pt-2">
-                                    <Button
-                                        className="w-full bg-indigo-600 hover:bg-indigo-500 font-bold"
-                                        onClick={handleTestWebhook}
-                                        disabled={isTesting}
-                                    >
-                                        {isTesting ? "Testing Connection..." : "Test Connection & Save"}
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
+                    <Button
+                        size="sm"
+                        variant="secondary"
+                        className="hidden sm:flex h-7 px-3 text-[11px]"
+                        onClick={() => window.open(`https://docs.google.com/spreadsheets/d/${sheetId}/edit`, '_blank')}
+                    >
+                        <ExternalLink className="w-3 h-3 mr-1.5 text-zinc-500" />
+                        Open Data
+                    </Button>
 
-                        {/* Active Connections */}
-                        <div className="space-y-4">
-                            <h3 className="text-lg font-bold text-white/60 px-1">Active Connections</h3>
+                    <Button
+                        size="sm"
+                        className="hidden sm:flex h-7 px-3 text-[11px] font-bold"
+                    >
+                        <RefreshCw className="w-3 h-3 mr-1.5" />
+                        Sync
+                    </Button>
+                </div>
+            </div>
 
-                            {savedWebhooks.length === 0 && (
-                                <div className="p-8 border border-dashed border-white/10 rounded-xl text-center">
-                                    <p className="text-white/20 mb-2">No alerts configured</p>
-                                    <p className="text-xs text-white/10">Add a webhook above to get started</p>
-                                </div>
-                            )}
+            {/* Main Content: Split View */}
+            <div className="flex-1 flex overflow-hidden">
+                {/* Left: TradingView Chart */}
+                <div className="flex-1 border-r border-border relative bg-background">
+                    <TradingViewWidget symbol={symbol} />
+                </div>
 
-                            {savedWebhooks.map((hook, i) => (
-                                <div key={i} className="flex items-center justify-between p-4 bg-[#111] border border-white/10 rounded-xl group hover:border-emerald-500/30 transition-colors">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                                            <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-white mb-0.5">{hook.name}</p>
-                                            <p className="text-xs text-white/30 font-mono">••••••••••••••••</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
-                                            Active
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                {/* Right: Google Sheet Execution Terminal + Live Scanner Feed */}
+                <div className="w-1/2 md:w-[45%] lg:w-[40%] flex flex-col bg-background">
 
-                    {/* Right Column: Status */}
-                    <div className="space-y-6">
-                        <Card className="bg-[#111] border-white/10">
-                            <CardHeader>
-                                <CardTitle className="text-sm uppercase tracking-widest text-white/40">System Status</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-white/60">Engine</span>
-                                    <span className="text-emerald-400 font-mono">ONLINE</span>
-                                </div>
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-white/60">Data Feed</span>
-                                    <span className="text-emerald-400 font-mono">CONNECTED</span>
-                                </div>
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-white/60">Last Scan</span>
-                                    <span className="text-white/90 font-mono">Just now</span>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <div className="p-4 rounded-xl bg-yellow-500/5 border border-yellow-500/10">
-                            <div className="flex gap-3">
-                                <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0" />
-                                <div>
-                                    <h4 className="font-bold text-yellow-500 mb-1 text-sm">Beta Notice</h4>
-                                    <p className="text-xs text-yellow-500/60 leading-relaxed">
-                                        Captain Hook is currently in beta. All alerts are sent instantly.
-                                        Please verify your channel permissions if alerts fail to deliver.
-                                    </p>
-                                </div>
+                    {/* Top Half: Sheet Terminal */}
+                    <div className="h-1/2 flex flex-col border-b border-border">
+                        <div className="h-8 border-b border-border bg-[#050505] flex items-center justify-between px-3 shrink-0">
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Execution Terminal</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[9px] font-mono text-primary/60">CONNECTED</span>
                             </div>
                         </div>
+                        <div className="flex-1 bg-white">
+                            <iframe
+                                src={`https://docs.google.com/spreadsheets/d/${sheetId}/edit?rm=minimal`}
+                                className="w-full h-full border-none"
+                                title="Google Sheet Execution Terminal"
+                            />
+                        </div>
                     </div>
+
+                    {/* Bottom Half: Live Scanner Feed */}
+                    <div className="h-1/2 flex flex-col bg-transparent">
+                        <div className="h-8 border-b border-border bg-[#050505] flex items-center justify-between px-3 shrink-0">
+
+                            <div className="flex items-center gap-2">
+                                <div className="p-1 rounded bg-primary/10">
+                                    <Terminal className="w-3 h-3 text-primary" />
+                                </div>
+                                <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Signal Stream</span>
+                            </div>
+                            {scanResults.length > 0 && (
+                                <span className="text-[9px] font-mono text-primary animate-pulse">STREAMING</span>
+                            )}
+                        </div>
+                        <div className="flex-1 overflow-y-auto p-0">
+                            {scanResults.length === 0 ? (
+                                <div className="h-full flex flex-col items-center justify-center text-white/20">
+                                    <Terminal className="w-8 h-8 mb-2 opacity-50" />
+                                    <p className="text-xs">No active signals.</p>
+                                    <p className="text-[10px]">Run a scan in "Sheets" page.</p>
+                                </div>
+                            ) : (
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="border-b border-white/5 text-[10px] uppercase text-white/40 sticky top-0 bg-[#0a0a0a]">
+                                            <th className="p-2 font-medium">Symbol</th>
+                                            <th className="p-2 font-medium">Condition</th>
+                                            <th className="p-2 font-medium text-right">Price</th>
+                                            <th className="p-2 font-medium text-right">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {scanResults.map((row, i) => (
+                                            <tr key={i} className="border-b border-white/5 text-xs hover:bg-white/5 transition-colors">
+                                                <td className="p-2 font-bold text-white">{row.symbol}</td>
+                                                <td className="p-2 font-mono text-emerald-400">{row.condition}</td>
+                                                <td className="p-2 text-right font-mono text-white/70">{row.price}</td>
+                                                <td className="p-2 text-right">
+                                                    <span className={`inline-block px-1.5 py-0.5 rounded text-[8px] font-bold uppercase ${row.status === 'SENT' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-yellow-500/20 text-yellow-400'
+                                                        }`}>
+                                                        {row.status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+                        </div>
+                    </div>
+
                 </div>
-            </main>
+            </div>
         </div>
     )
 }

@@ -1,101 +1,85 @@
-# ScanTrade 📊
-
-**Simple market screeners with smart alerts — built for traders, not institutions.**
-
----
-
-## 🔍 What is ScanTrade?
-
-**ScanTrade** is a lightweight trading screener system that helps you **spot market opportunities faster** using structured scans, clean logic, and optional automation.
-
-It combines:
-
-* TradingView-based screening
-* Google Sheets logic & filters
-* Real-time alerts (Discord-ready)
-* A clean web interface for daily use
-
-No complexity. No black boxes. Just **clear signals**.
+<div align="center">
+  <img src="public/logo_transparent.png" width="80" height="80" alt="ScanTrade Logo">
+  <h1>ScanTrade Pro</h1>
+  <p><strong>Professional High-Density Market Intelligence & Execution Node</strong></p>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](https://opensource.org/licenses/MIT)
+  [![Auth: NextAuth](https://img.shields.io/badge/Auth-NextAuth-black.svg)](https://next-auth.js.org/)
+  [![UI: Postman--Style](https://img.shields.io/badge/UI-Postman--Style-FF6C37.svg)](#)
+</div>
 
 ---
 
-## ⚙️ What ScanTrade Does
+## 🌑 The Ultra-Dark Intelligence Node
 
-### 📈 Market Screeners
+**ScanTrade Pro** is an institutional-grade, high-density trading workspace designed for rapid market screening and real-time intelligence. Built on an **AMOLED-ready ultra-dark engine**, it provides traders with a distraction-free environment for spotting high-probability setups across global markets.
 
-ScanTrade continuously checks markets for:
-
-* Trend alignment
-* Volume expansion
-* Volatility contraction
-* Breakout and reversal setups
-* Custom logic you define
-
-You decide **what matters** — ScanTrade just scans.
+### 📐 Workspace Architecture
+- **Postman-Style Interface**: Dense, 3-column layout (Activity Bar, Navigation Panel, Workspace) for maximum vertical efficiency.
+- **Persistent Layout**: Remembers your preferred sidebar state and workspace configuration across sessions.
+- **Power-User Shortcuts**: Fully navigable via keyboard (e.g., `Ctrl+B` for sidebar toggle).
 
 ---
 
-### 🔔 Alerts & Notifications
+## ⚡ Core Systems
 
-* Discord alerts (primary)
-* Clean signal messages
-* No over-trading spam
-* Human-readable output
+### 🔍 Pro-Grade Screeners
+Real-time market scanning across thousands of symbols. Spottings include:
+- Trend Intensity & Alignment
+- Volume Anomalies & Institutional Footprints
+- Volatility Compression (Squeezes)
+- Custom logic-driven setup detection.
 
-Designed to fit naturally into a **Discord trading workflow**.
+### 🧠 LEO AI Architect
+A hyper-intelligent AI sidekick integrated directly into the workspace.
+- Real-time streaming market analysis.
+- Strategy drafting and backtest logic verification.
+- Natural language interface for market querying.
 
----
-
-### 🧠 Smart Logic (Not Blind Bots)
-
-ScanTrade does **not** place real trades.
-
-Instead, it:
-
-* Highlights high-probability setups
-* Lets *you* decide the execution
-* Supports paper trading and simulation
-
-This keeps the system **safe, transparent, and controllable**.
+### 🔐 Secure Identity Management
+Powered by **NextAuth.js**, ensuring your intelligence data remains non-custodial and secure.
+- Multi-role support (Admin, Pro, Free).
+- Protected execution routes.
+- Persistent session management.
 
 ---
 
-## 🧩 How It’s Built (High Level)
+## 🧩 Technical Stack
 
-* **Data Sources**: TradingView, public market feeds
-* **Logic Layer**: Sheet-based + code-based rules
-* **Frontend**: Clean web UI (Vercel)
-* **Alerts**: Discord bot integration
-* **Storage**: Simple logs for tracking signals
-
-Lightweight by design. Easy to extend.
+- **Frontend**: Next.js 15 (Turbopack), Tailwind CSS, Framer Motion.
+- **Auth**: NextAuth.js.
+- **Icons**: Lucide React.
+- **Components**: Radix UI / Shadcn.
+- **Real-time Logic**: Google Sheets API & TradingView Webhooks.
 
 ---
 
-## 🚀 Who Is ScanTrade For?
+## 🚀 Getting Started
 
-* Retail traders
-* Swing & intraday traders
-* Traders who want **alerts, not noise**
-* Developers building their own logic
-* Anyone who prefers **simple tools that work**
+1. **Clone & Install**:
+   ```bash
+   git clone https://github.com/opendev-labs/scantrade.git
+   cd scantrade
+   npm install --legacy-peer-deps
+   ```
 
----
+2. **Run Local Console**:
+   ```bash
+   ./open-dev-npm.sh
+   ```
 
-## 🛡️ Philosophy
-
-> ScanTrade scans.
-> You trade.
-
-No hidden execution.
-No forced strategies.
-No unnecessary complexity.
+3. **Production Access**:
+   Access the node at `http://localhost:3000`. Use `admin@scantrade.com` / `admin123` for initial setup.
 
 ---
 
-## 🌐 Project
+## 🛡️ License & Philosophy
 
-* Website: **scantrade.vercel.app**
-* Bot: **ScanTrade (Discord)**
-* Status: Active Development
-* License: MIT
+ScanTrade follows a **Non-Custodial Transparency** model. The system highlights setups; the human executes. 
+
+**ScanTrade scans. You trade.**
+
+---
+<div align="center">
+  <p>Built with precision by <strong>OpenDev Labs</strong></p>
+</div>

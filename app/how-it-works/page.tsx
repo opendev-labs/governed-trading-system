@@ -1,6 +1,4 @@
-"use strict";
-import Navigation from "@/components/navigation";
-import { ArrowDown, Database, FileSpreadsheet, Activity, Bell } from "lucide-react";
+import { ArrowDown, Database, FileSpreadsheet, Activity, Bell, Info } from "lucide-react";
 
 const steps = [
     {
@@ -32,27 +30,36 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <div className="min-h-screen bg-[#020202] text-white selection:bg-emerald-500/30 font-sans">
-            <Navigation />
+        <div className="flex flex-col h-full bg-transparent overflow-hidden">
+            <header className="h-[44px] border-b border-border flex items-center justify-between px-4 bg-[#050505] shrink-0">
+                <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-sm bg-primary/10 border border-primary/20 flex items-center justify-center">
+                        <Info className="w-3.5 h-3.5 text-primary" />
+                    </div>
+                    <div>
+                        <h1 className="font-bold text-[13px] tracking-tight text-white/90">How it Works <span className="text-zinc-600 font-normal mx-1">/</span> <span className="text-zinc-500 font-mono text-[10px]">Architecture</span></h1>
+                    </div>
+                </div>
+            </header>
 
-            <main className="container mx-auto px-6 py-16 flex flex-col items-center">
-                <div className="text-center mb-16 max-w-2xl">
-                    <h1 className="text-4xl font-black mb-4">How It Works</h1>
-                    <p className="text-white/40 text-lg">
-                        A transparent pipeline from market to mobile.
-                        <br /> <span className="text-emerald-400 font-bold">No hidden bots. No black boxes.</span>
+            <main className="flex-1 overflow-y-auto p-8 flex flex-col items-center custom-scrollbar">
+                <div className="text-center mb-12 max-w-xl">
+                    <h2 className="text-3xl font-black mb-3 text-white tracking-tight italic uppercase">The Anatomy of a Trade</h2>
+                    <p className="text-zinc-500 text-sm leading-relaxed">
+                        A transparent, non-custodial pipeline from institutional data to your mobile device.
+                        <br /> <span className="text-primary font-bold">No black boxes. No hidden logic.</span>
                     </p>
                 </div>
 
                 <div className="relative max-w-xl w-full">
                     {/* Vertical Line */}
-                    <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-emerald-500/50 to-transparent hidden sm:block"></div>
+                    <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent hidden sm:block"></div>
 
                     <div className="space-y-12 relative">
                         {steps.map((step, i) => (
                             <div key={i} className="flex gap-6 items-start relative group">
                                 {/* Icon Bubble */}
-                                <div className="relative z-10 w-16 h-16 rounded-2xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shrink-0 shadow-xl group-hover:border-emerald-500/30 transition-colors">
+                                <div className="relative z-10 w-16 h-16 rounded-sm bg-[#050505] border border-border flex items-center justify-center shrink-0 shadow-xl group-hover:border-primary/50 transition-colors">
                                     {step.icon}
                                 </div>
 
@@ -73,11 +80,11 @@ export default function HowItWorks() {
                     </div>
                 </div>
 
-                <div className="mt-20 p-6 rounded-xl bg-red-500/10 border border-red-500/20 text-center max-w-lg">
-                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-widest text-xs">Essential Safety Notice</h4>
-                    <p className="text-white/80">
-                        ScanTrade <span className="font-bold underline">does not</span> place orders for you.
-                        We provide the information; the final execution decision is always 100% yours.
+                <div className="mt-16 p-4 rounded-sm bg-primary/5 border border-primary/20 text-center max-w-lg">
+                    <h4 className="text-primary font-bold mb-2 uppercase tracking-widest text-[10px]">Technical Note</h4>
+                    <p className="text-zinc-500 text-xs leading-relaxed">
+                        ScanTrade <span className="font-bold underline">does not</span> execute orders automatically.
+                        We provide intelligence; the final execution decision remains manual and user-controlled.
                     </p>
                 </div>
 

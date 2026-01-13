@@ -1,78 +1,115 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X, Command } from "lucide-react"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
+import {
+  LayoutDashboard,
+  Search,
+  Bot,
+  Settings,
+  Database,
+  CreditCard,
+  MessageSquare,
+  Activity,
+  Files,
+  Cpu,
+  Globe
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
 
   const navItems = [
-    { label: "Home", href: "https://opendev-labs.github.io/scantrade/", icon: "🏠" },
-    { label: "Screeners", href: "https://opendev-labs.github.io/scantrade/screeners", icon: "🔍" },
-    { label: "Discord", href: "https://opendev-labs.github.io/scantrade/discord", icon: "💬" },
-    { label: "Sheets", href: "https://opendev-labs.github.io/scantrade/google-sheets", icon: "📊" },
-    { label: "Pricing", href: "https://opendev-labs.github.io/scantrade/pricing", icon: "💰" },
-    { label: "Master", href: "https://scantrade.vercel.app/master", icon: "🔐" },
+    { label: "Master Hub", href: "/master", icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: "LEO Architect", href: "/leo", icon: <Cpu className="w-5 h-5" /> },
+    { label: "Screeners", href: "/screeners", icon: <Search className="w-5 h-5" /> },
+    { label: "Data Sources", href: "/google-sheets", icon: <Database className="w-5 h-5" /> },
+    { label: "Alerts", href: "/discord", icon: <MessageSquare className="w-5 h-5" /> },
+    { label: "Resources", href: "/how-it-works", icon: <Files className="w-5 h-5" /> },
+  ]
+
+  const bottomItems = [
+    { label: "Settings", href: "/settings", icon: <Settings className="w-5 h-5" /> },
+    { label: "Website", href: "/", icon: <Globe className="w-5 h-5" /> },
   ]
 
   return (
-    <nav className="border-b border-border bg-background/80 backdrop-blur-xl sticky top-0 z-50 shadow-lg shadow-black/20">
-      <div className="px-6 md:px-8 py-3">
-        <div className="flex justify-between items-center">
-          {/* Logo & Brand */}
-          <div className="flex items-center gap-4">
-            <img src="https://scantrade.vercel.app/icon.svg" alt="Logo" className="w-9 h-9 rounded-md shadow-lg shadow-primary/20" />
-            <div className="hidden sm:flex flex-col">
-              <span className="font-bold text-sm leading-none">ScanTrade</span>
-              <span className="text-xs text-muted-foreground">Simple Alerts</span>
-            </div>
-          </div>
+    <aside className="fixed left-0 top-0 h-screen w-16 bg-[#0a0a0a] border-r border-[#1a1a1a] flex flex-col items-center py-4 z-50">
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-0.5">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="group relative">
-                <Button
-                  variant="ghost"
-                  className="text-foreground/70 hover:text-primary smooth-transition hover:bg-primary/5 relative"
-                >
-                  <span className="text-sm">{item.label}</span>
-                </Button>
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </a>
-            ))}
-          </div>
-
-          {/* Right Section */}
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="hidden md:inline-flex">
-              <Command className="w-4 h-4 text-muted-foreground" />
-            </Button>
-
-            {/* Mobile Menu Button */}
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-          </div>
+      {/* Logo / Brand */}
+      <div className="mb-6">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
+          <Activity className="w-6 h-6 text-black" />
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden mt-3 flex flex-col gap-1 border-t border-border/50 pt-3">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-foreground/70 hover:text-primary hover:bg-primary/5 smooth-transition"
-                >
-                  <span className="text-sm">{item.label}</span>
-                </Button>
-              </a>
-            ))}
-          </div>
-        )}
       </div>
-    </nav>
+
+      {/* Main Navigation */}
+      <nav className="flex-1 w-full flex flex-col items-center gap-2 px-2">
+        <TooltipProvider delayDuration={0}>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Tooltip key={item.href}>
+                <TooltipTrigger asChild>
+                  <Link href={item.href} className="w-full">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={`
+                        w-full h-10 rounded-lg transition-all duration-200
+                        ${isActive
+                          ? "bg-orange-500/10 text-orange-500"
+                          : "text-zinc-500 hover:bg-[#1a1a1a] hover:text-zinc-300"
+                        }
+                      `}
+                    >
+                      {item.icon}
+                      {isActive && (
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-orange-500 rounded-r-full" />
+                      )}
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="bg-[#1a1a1a] border-white/10 text-white text-xs font-medium">
+                  {item.label}
+                </TooltipContent>
+              </Tooltip>
+            )
+          })}
+        </TooltipProvider>
+      </nav>
+
+      {/* Bottom Navigation */}
+      <div className="w-full flex flex-col items-center gap-2 px-2 pt-4 border-t border-[#1a1a1a]">
+        <TooltipProvider delayDuration={0}>
+          {bottomItems.map((item) => (
+            <Tooltip key={item.href}>
+              <TooltipTrigger asChild>
+                <Link href={item.href} className="w-full">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="w-full h-10 rounded-lg text-zinc-500 hover:bg-[#1a1a1a] hover:text-zinc-300 transition-all"
+                  >
+                    {item.icon}
+                  </Button>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right" className="bg-[#1a1a1a] border-white/10 text-white text-xs font-medium">
+                {item.label}
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </TooltipProvider>
+      </div>
+    </aside>
   )
 }

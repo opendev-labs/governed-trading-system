@@ -44,6 +44,8 @@ export const metadata: Metadata = {
 }
 
 import { Toaster } from 'sonner'
+import { WorkspaceLayout } from '@/components/layout/WorkspaceLayout'
+import { Providers } from '@/components/Providers'
 
 export default function RootLayout({
   children,
@@ -51,11 +53,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
-        {children}
+    <html lang="en" className="dark">
+      <body className={`font-sans antialiased bg-background text-foreground h-screen overflow-hidden`}>
+        <Providers>
+          <WorkspaceLayout>
+            {children}
+          </WorkspaceLayout>
+        </Providers>
         <Analytics />
-        <Toaster position="top-center" richColors />
+        <Toaster position="bottom-right" theme="dark" richColors />
       </body>
     </html>
   )

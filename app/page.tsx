@@ -1,70 +1,89 @@
-"use strict";
-import { Button } from "@/components/ui/button";
-import Navigation from "@/components/navigation";
+import { ArrowRight, Activity, Terminal, Shield, CheckCircle2, Layout, HelpCircle } from "lucide-react";
 import Link from "next/link";
-import { ArrowRight, Bell, Zap, Shield, CheckCircle2 } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#020202] text-white selection:bg-emerald-500/30 overflow-x-hidden font-sans">
-      <Navigation />
-
-      {/* Hero Section */}
-      <main className="container mx-auto px-6 py-24 sm:py-32 flex flex-col items-center text-center relative z-10">
-
-        {/* Background Decor */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
-
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-[10px] font-bold tracking-widest uppercase text-white/60">System Active</span>
-        </div>
-
-        <h1 className="text-5xl sm:text-7xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/50 mb-6 max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-          ScanTrade.
-          <br />
-          <span className="text-emerald-400">Simple Alerts.</span>
-        </h1>
-
-        <p className="text-lg sm:text-xl text-white/40 max-w-2xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-          We watch the market so you don't have to.
-          Simple screeners sent directly to your Discord.
-          <br className="hidden sm:block" />
-          <span className="text-white/70 font-semibold mt-2 block">No automated trading. No confusion.</span>
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 w-full justify-center animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
-          <Button size="lg" className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold tracking-wide h-12 px-8" asChild>
-            <Link href="/discord">
-              Join Discord <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </Button>
-          <Button size="lg" variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white h-12 px-8" asChild>
-            <Link href="/how-it-works">
-              How it Works
-            </Link>
-          </Button>
-        </div>
-
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-32 w-full max-w-5xl animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-left hover:bg-white/10 transition-colors">
-            <Zap className="w-8 h-8 text-yellow-400 mb-4" />
-            <h3 className="text-lg font-bold mb-2">Instant Alerts</h3>
-            <p className="text-sm text-white/40">Real-time notifications sent to your phone via Discord as soon as a setup triggers.</p>
+    <div className="flex flex-col h-full bg-transparent overflow-hidden">
+      <header className="h-[44px] border-b border-border flex items-center justify-between px-4 bg-[#050505] shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-sm bg-primary/10 border border-primary/20 flex items-center justify-center">
+            <Layout className="w-3.5 h-3.5 text-primary" />
           </div>
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-left hover:bg-white/10 transition-colors">
-            <Shield className="w-8 h-8 text-emerald-400 mb-4" />
-            <h3 className="text-lg font-bold mb-2">Safe & Manual</h3>
-            <p className="text-sm text-white/40">We find the trade, you take the trade. No risk of bots losing your money.</p>
+          <div>
+            <h1 className="font-bold text-[13px] tracking-tight text-white/90">My Workspace <span className="text-zinc-600 font-normal mx-1">/</span> <span className="text-zinc-500 font-mono text-[10px]">Overview</span></h1>
           </div>
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-left hover:bg-white/10 transition-colors">
-            <CheckCircle2 className="w-8 h-8 text-blue-400 mb-4" />
-            <h3 className="text-lg font-bold mb-2">Proven Logic</h3>
-            <p className="text-sm text-white/40">Built on standard indicators like VWAP, RSI, and Volume. No black/box magic.</p>
+        </div>
+      </header>
+
+      <main className="flex-1 overflow-y-auto p-12 custom-scrollbar">
+        {/* Hero / Welcome */}
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-12">
+            <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded-sm bg-primary/10 border border-primary/20 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>
+              <span className="text-[9px] font-black tracking-[0.2em] uppercase text-primary">Intelligence Systems Active</span>
+            </div>
+            <h2 className="text-5xl font-black text-white tracking-tighter italic uppercase mb-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              ScanTrade <span className="text-zinc-700">Infrastructure</span>
+            </h2>
+            <p className="text-zinc-500 text-lg leading-relaxed max-w-2xl animate-in fade-in slide-in-from-bottom-6 duration-500">
+              Welcome to your institutional-grade market intelligence workspace.
+              Deploy scanners, analyze signal feeds, and manage Discord alerting pipes from a unified command center.
+            </p>
+          </div>
+
+          {/* Quick Actions / Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <Link href="/screeners" className="group p-6 rounded-sm bg-[#050505] border border-border hover:border-primary/50 transition-all shadow-xl">
+              <Terminal className="w-6 h-6 text-primary mb-4 group-hover:scale-110 transition-transform" />
+              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-2 flex items-center justify-between">
+                Market Scanners
+                <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </h3>
+              <p className="text-zinc-500 text-[11px] leading-relaxed">Execute high-frequency scanning logic across multiple asset classes.</p>
+            </Link>
+
+            <Link href="/master" className="group p-6 rounded-sm bg-[#050505] border border-border hover:border-primary/50 transition-all shadow-xl">
+              <Activity className="w-6 h-6 text-primary mb-4 group-hover:scale-110 transition-transform" />
+              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-2 flex items-center justify-between">
+                Signal Feed
+                <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </h3>
+              <p className="text-zinc-500 text-[11px] leading-relaxed">Unified stream of all intelligence generated by your deployed agents.</p>
+            </Link>
+
+            <Link href="/how-it-works" className="group p-6 rounded-sm bg-[#050505] border border-border hover:border-zinc-500 transition-all shadow-xl">
+              <HelpCircle className="w-6 h-6 text-zinc-500 mb-4 group-hover:scale-110 transition-transform" />
+              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-2 flex items-center justify-between">
+                Documentation
+                <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </h3>
+              <p className="text-zinc-500 text-[11px] leading-relaxed">Explore technical architecture and non-custodial safety protocols.</p>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12 border-t border-border/50 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-sm bg-zinc-800 flex items-center justify-center shrink-0">
+                <Shield className="w-4 h-4 text-zinc-400" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black text-white uppercase tracking-widest mb-1">Non-Custodial Safety</h4>
+                <p className="text-zinc-500 text-[11px] leading-relaxed">Your data remains within your own infrastructure. ScanTrade never manages or accesses your private capital.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-sm bg-zinc-800 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-4 h-4 text-zinc-400" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black text-white uppercase tracking-widest mb-1">Institutional Logic</h4>
+                <p className="text-zinc-500 text-[11px] leading-relaxed">All alerts are verified against institutional-grade indicators (VWAP, RSI, MVWAP) before dispatch.</p>
+              </div>
+            </div>
           </div>
         </div>
       </main>
     </div>
-  );
+  )
 }
