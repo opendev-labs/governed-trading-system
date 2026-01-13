@@ -5,8 +5,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "prebuild:static": "mv app/api app/_api_hide || true && mv middleware.ts _middleware_hide.ts || true",
     "build:static": "STATIC_EXPORT=true next build",
-    "deploy:gh": "npm run build:static && gh-pages -d out",
+    "postbuild:static": "mv app/_api_hide app/api || true && mv _middleware_hide.ts middleware.ts || true",
+    "deploy:gh": "npm run prebuild:static && npm run build:static && npm run postbuild:static && gh-pages -d out",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start"

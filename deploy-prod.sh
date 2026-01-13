@@ -38,7 +38,7 @@ echo -e "  - GOOGLE_CLIENT_ID / SECRET (If using OAuth)"
 # 4. Push to GitHub (Triggers Vercel)
 echo -e "${BLUE}+ Syncing local workspace to GitHub Production...${NC}"
 git add .
-git commit -m "prod: final workspace overhaul and deployment sync"
+git commit -m "prod: resolve dual-deployment build conflicts and branding polish"
 git push origin main
 
 if [ $? -eq 0 ]; then
@@ -46,8 +46,7 @@ if [ $? -eq 0 ]; then
     echo -e "${GREEN}+ GitHub successfully synchronized.${NC}"
     echo -e "${BLUE}+ Vercel is now building your changes.${NC}"
     echo -e "${ORANGE}+ Live URL: https://scantrade.vercel.app${NC}"
-    echo -e "${ORANGE}+ Console: https://vercel.com/opendev-labs/scantrade/deployments${NC}"
 else
-    echo -e "${RED}[ERROR] GitHub sync failed. Check your network or permissions.${NC}"
+    echo -e "${RED}[ERROR] GitHub sync failed.${NC}"
     exit 1
 fi
