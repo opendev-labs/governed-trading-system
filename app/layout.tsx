@@ -18,9 +18,9 @@ export const metadata: Metadata = {
     siteName: 'ScanTrade',
     images: [
       {
-        url: '/icon.svg',
+        url: '/logo_transparent.png',
         width: 800,
-        height: 600,
+        height: 800,
       },
     ],
     locale: 'en_US',
@@ -30,16 +30,16 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ScanTrade',
     description: 'Lightweight trading screener system.',
-    images: ['/icon.svg'],
+    images: ['/logo_transparent.png'],
   },
   icons: {
     icon: [
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/logo_transparent.png',
+        type: 'image/png',
       },
     ],
-    apple: '/icon.svg',
+    apple: '/logo_transparent.png',
   },
 }
 

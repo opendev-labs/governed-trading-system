@@ -21,6 +21,7 @@ fi
 
 # 2. Local Validation (Pro Check)
 echo -e "${BLUE}+ Running local build validation...${NC}"
+npm install --legacy-peer-deps
 npm run build
 if [ $? -ne 0 ]; then
     echo -e "${RED}[ERROR] Local build failed. Fix errors before pushing to production.${NC}"
