@@ -1,22 +1,35 @@
-import { withAuth } from "next-auth/middleware";
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default withAuth({
-    pages: {
-        signIn: "/signin",
-    },
-});
+// Protected routes that require authentication
+const protectedRoutes = ['/master', '/leo', '/settings']
+
+// Public routes that don't require authentication
+const publicRoutes = ['/', '/signin', '/screeners', '/discord', '/google-sheets', '/how-it-works', '/pricing', '/faq', '/terms', '/privacy']
+
+export function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl
+
+    // Check if the route is protected
+    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
+
+    // For now, we'll allow access as client-side auth will handle redirects
+    // This is because Firebase auth state is managed on the client
+    // In production, you may want to use Firebase Admin SDK for server-side verification
+
+    return NextResponse.next()
+}
 
 export const config = {
     matcher: [
         /*
          * Match all request paths except for the ones starting with:
-         * - api/auth (NextAuth routes)
+         * - api (API routes)
          * - _next/static (static files)
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
-         * - public assets
-         * - landing page (/)
+         * - public folder
          */
-        "/((?!api/auth|_next/static|_next/image|favicon.ico|api/leo|api/interactions|logo_transparent.png|$).*)",
+        '/((?!api|_next/static|_next/image|favicon.ico|.*\\.png|.*\\.jpg|.*\\.svg).*)',
     ],
-};
+}

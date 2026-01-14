@@ -59,3 +59,10 @@ htmlcov/
 .temp/
 *.bak
 *.tmp
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+functions-debug.log

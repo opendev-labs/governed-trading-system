@@ -6,14 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import ReactMarkdown from 'react-markdown'
 import { motion, AnimatePresence } from "framer-motion"
+
 import { useChat } from '@ai-sdk/react'
 
 export default function LeoPage() {
-    const { messages, input, handleInputChange, handleSubmit, isLoading, stop } = useChat({
+    const { messages, input, handleInputChange, handleSubmit, isLoading, stop, append } = useChat({
         api: '/api/leo/chat',
-        body: {
-            apiKey: typeof window !== 'undefined' ? localStorage.getItem("scantrade_gemini_key") : undefined
-        }
     })
 
     const scrollRef = useRef<HTMLDivElement>(null)

@@ -1,5 +1,5 @@
 import { ChevronRight, Home, Layout, Search, Bell, History, User, PanelLeft, LogOut } from "lucide-react"
-import { useSession, signOut } from "next-auth/react"
+import { useAuth } from "@/components/providers/auth-provider"
 
 interface TopHeaderProps {
     onToggleSidebar?: () => void
@@ -7,7 +7,7 @@ interface TopHeaderProps {
 }
 
 export function TopHeader({ onToggleSidebar, isSidebarVisible }: TopHeaderProps) {
-    const { data: session } = useSession()
+    const { user, signOut } = useAuth()
 
     return (
         <header className="h-[44px] bg-[#0A0A0A] border-b border-border flex items-center px-3 justify-between select-none z-50">
@@ -55,11 +55,11 @@ export function TopHeader({ onToggleSidebar, isSidebarVisible }: TopHeaderProps)
                 </div>
 
                 <div className="flex items-center gap-3 pl-1">
-                    {session?.user ? (
+                    {user ? (
                         <div className="flex items-center gap-3">
                             <div className="flex flex-col items-end">
-                                <span className="text-[11px] font-bold text-zinc-200 leading-none">{session.user.name}</span>
-                                <span className="text-[9px] font-black text-primary uppercase tracking-tighter">{(session.user as any).role || 'Free'}</span>
+                                <span className="text-[11px] font-bold text-zinc-200 leading-none">{user.displayName || user.email}</span>
+                                <span className="text-[9px] font-black text-primary uppercase tracking-tighter">Pro</span>
                             </div>
                             <button
                                 onClick={() => signOut()}

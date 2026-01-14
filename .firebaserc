@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "scantrade-opendev-labs"
+  },
+  "targets": {
+    "scantrade-opendev-labs": {
+      "hosting": {
+        "scantrade": [
+          "scantrade"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

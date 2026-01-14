@@ -1,67 +1,56 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, ArrowRight, Loader2, Github, Globe, Server, AlertCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Shield, ArrowRight, Loader2, AlertCircle, Mail, Lock } from "lucide-react";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { signInWithGoogle, signInWithEmail, signUpWithEmail } from "@/lib/firebase-auth";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [isStatic, setIsStatic] = useState(false);
+    const [mode, setMode] = useState<"signin" | "signup">("signin");
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl") || "/master";
 
-    useEffect(() => {
-        // Detect if we are on GitHub Pages (static) or Vercel (dynamic)
-        const hostname = window.location.hostname;
-        if (hostname.includes("github.io")) {
-            setIsStatic(true);
-        }
-    }, []);
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleEmailAuth = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         setError("");
 
         try {
-            const result = await signIn("credentials", {
-                email,
-                password,
-                redirect: false,
-                callbackUrl,
-            });
-
-            if (result?.error) {
-                setError("Invalid credentials. Access Denied.");
-                setIsLoading(false);
+            if (mode === "signin") {
+                await signInWithEmail(email, password);
             } else {
-                router.push(callbackUrl);
-                router.refresh();
+                await signUpWithEmail(email, password);
             }
-        } catch (err) {
-            setError("Session initialization failed. System error.");
+            router.push("/master");
+            router.refresh();
+        } catch (err: any) {
+            setError(err.message || "Authentication failed");
             setIsLoading(false);
         }
     };
 
-    const handleGitHubSignIn = () => {
-        if (isStatic) {
-            window.location.href = "https://scantrade.vercel.app/signin";
-            return;
+    const handleGoogleSignIn = async () => {
+        setIsLoading(true);
+        setError("");
+
+        try {
+            await signInWithGoogle();
+            router.push("/master");
+            router.refresh();
+        } catch (err: any) {
+            setError(err.message || "Google sign-in failed");
+            setIsLoading(false);
         }
-        signIn("github", { callbackUrl });
     };
 
     return (
         <div className="min-h-screen bg-[#020202] flex flex-col items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
-            {/* Background elements for premium feel */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/2 rounded-full blur-[120px]" />
@@ -84,129 +73,106 @@ export default function SignIn() {
                     </motion.div>
 
                     <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic flex items-center gap-2">
-                        SCANT RADE <span className="text-primary glow-text-primary">V2</span>
+                        SCANTRADE <span className="text-primary glow-text-primary">V2</span>
                     </h1>
                     <div className="h-[1px] w-12 bg-primary/50 my-2" />
                     <p className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-black italic">Advanced Intelligence Node</p>
                 </div>
 
-                <AnimatePresence mode="wait">
-                    {isStatic ? (
-                        <motion.div
-                            key="static-warning"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="glass-effect p-8 border-primary/20 bg-primary/5 relative overflow-hidden"
-                        >
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="p-2 rounded-lg bg-primary/20 border border-primary/30">
-                                    <Globe className="w-5 h-5 text-primary" />
-                                </div>
-                                <div>
-                                    <h3 className="text-white font-bold text-sm uppercase mb-1">Static Node Detected</h3>
-                                    <p className="text-zinc-400 text-xs leading-relaxed">
-                                        You are currently on the static documentation mirror. Authentication requires a live production environment.
-                                    </p>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="space-y-6"
+                >
+                    <div className="glass-effect p-8">
+                        <form onSubmit={handleEmailAuth} className="space-y-5">
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest ml-0.5">Trader Identity</label>
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full bg-[#0A0A0A] border border-white/10 rounded-sm py-3 px-4 text-sm text-white placeholder:text-zinc-800 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
+                                        placeholder="identity@scantrade.network"
+                                        required
+                                    />
                                 </div>
                             </div>
+
+                            <div className="space-y-1.5">
+                                <div className="flex justify-between items-center px-0.5">
+                                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Access Protocol</label>
+                                </div>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-sm py-3 px-4 text-sm text-white placeholder:text-zinc-800 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
+                                    placeholder="••••••••"
+                                    required
+                                    minLength={6}
+                                />
+                            </div>
+
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="p-3 rounded-sm bg-destructive/10 border border-destructive/20 text-destructive text-[11px] font-bold leading-tight flex items-center gap-2"
+                                >
+                                    <AlertCircle className="w-3.5 h-3.5" />
+                                    {error}
+                                </motion.div>
+                            )}
 
                             <button
-                                onClick={() => window.location.href = "https://scantrade.vercel.app/signin"}
-                                className="w-full bg-primary hover:bg-[#FF8A5E] text-black font-black py-3 rounded-sm transition-all flex items-center justify-center gap-2 group shadow-xl uppercase text-xs"
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full bg-primary hover:bg-[#FF8A5E] disabled:bg-zinc-900 disabled:text-zinc-700 text-black font-black py-3 rounded-sm transition-all flex items-center justify-center gap-2 group shadow-xl active:scale-[0.98] uppercase text-xs"
                             >
-                                Connect to Lead Node <Server className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                {isLoading ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <>
+                                        {mode === "signin" ? "System Initialization" : "Create Account"} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </>
+                                )}
                             </button>
+                        </form>
 
-                            <div className="mt-6 flex items-center gap-2 justify-center">
-                                <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
-                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Awaiting Tunnel Handshake</span>
+                        <div className="relative my-8">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t border-white/5" />
                             </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="auth-form"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="space-y-6"
+                            <div className="relative flex justify-center text-[10px] uppercase">
+                                <span className="bg-[#050505] px-4 text-zinc-600 font-bold tracking-[0.2em]">or continue with</span>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={handleGoogleSignIn}
+                            disabled={isLoading}
+                            className="w-full bg-white hover:bg-zinc-100 disabled:bg-zinc-900 disabled:text-zinc-700 text-black font-bold py-3 rounded-sm transition-all flex items-center justify-center gap-3 active:scale-[0.98] text-sm shadow-lg"
                         >
-                            <div className="glass-effect p-8">
-                                <form onSubmit={handleSubmit} className="space-y-5">
-                                    <div className="space-y-1.5">
-                                        <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest ml-0.5">Trader Identity</label>
-                                        <div className="relative">
-                                            <input
-                                                type="email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full bg-[#0A0A0A] border border-white/10 rounded-sm py-3 px-4 text-sm text-white placeholder:text-zinc-800 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                                                placeholder="identity@scantrade.network"
-                                                required
-                                            />
-                                        </div>
-                                    </div>
+                            <FcGoogle className="w-5 h-5" />
+                            Sign in with Google
+                        </button>
 
-                                    <div className="space-y-1.5">
-                                        <div className="flex justify-between items-center px-0.5">
-                                            <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Access Protocol</label>
-                                            <Link href="#" className="text-[9px] text-primary/60 hover:text-primary transition-colors font-bold uppercase tracking-tighter">Emergency Override?</Link>
-                                        </div>
-                                        <input
-                                            type="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            className="w-full bg-[#0A0A0A] border border-white/10 rounded-sm py-3 px-4 text-sm text-white placeholder:text-zinc-800 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                                            placeholder="••••••••"
-                                            required
-                                        />
-                                    </div>
-
-                                    {error && (
-                                        <motion.div
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            className="p-3 rounded-sm bg-destructive/10 border border-destructive/20 text-destructive text-[11px] font-bold leading-tight flex items-center gap-2"
-                                        >
-                                            <AlertCircle className="w-3.5 h-3.5" />
-                                            {error}
-                                        </motion.div>
-                                    )}
-
-                                    <button
-                                        type="submit"
-                                        disabled={isLoading}
-                                        className="w-full bg-primary hover:bg-[#FF8A5E] disabled:bg-zinc-900 disabled:text-zinc-700 text-black font-black py-3 rounded-sm transition-all flex items-center justify-center gap-2 group shadow-xl active:scale-[0.98] uppercase text-xs"
-                                    >
-                                        {isLoading ? (
-                                            <Loader2 className="w-4 h-4 animate-spin" />
-                                        ) : (
-                                            <>
-                                                System Initialization <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                            </>
-                                        )}
-                                    </button>
-                                </form>
-
-                                <div className="relative my-8">
-                                    <div className="absolute inset-0 flex items-center">
-                                        <span className="w-full border-t border-white/5" />
-                                    </div>
-                                    <div className="relative flex justify-center text-[10px] uppercase">
-                                        <span className="bg-[#050505] px-4 text-zinc-600 font-bold tracking-[0.2em]">or multi-factor</span>
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={handleGitHubSignIn}
-                                    className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 rounded-sm transition-all flex items-center justify-center gap-3 active:scale-[0.98] text-xs uppercase"
-                                >
-                                    <Github className="w-4 h-4" />
-                                    Synchronize via GitHub
-                                </button>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        <div className="mt-6 text-center">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setMode(mode === "signin" ? "signup" : "signin");
+                                    setError("");
+                                }}
+                                className="text-[11px] text-zinc-500 hover:text-primary transition-colors font-bold uppercase tracking-wider"
+                            >
+                                {mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"}
+                            </button>
+                        </div>
+                    </div>
+                </motion.div>
 
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -235,7 +201,6 @@ export default function SignIn() {
                 </motion.div>
             </motion.div>
 
-            {/* Terminal Decoration */}
             <div className="fixed bottom-4 left-4 font-mono text-[8px] text-zinc-800 uppercase space-y-1 pointer-events-none hidden lg:block">
                 <p>node_status: optimal</p>
                 <p>connection: encrypted</p>
@@ -244,7 +209,7 @@ export default function SignIn() {
 
             <div className="fixed bottom-4 right-4 font-mono text-[8px] text-zinc-800 uppercase space-y-1 pointer-events-none hidden lg:block">
                 <p>© opendev-labs</p>
-                <p>scantrade.network</p>
+                <p>scantrade.web.app</p>
             </div>
         </div>
     );

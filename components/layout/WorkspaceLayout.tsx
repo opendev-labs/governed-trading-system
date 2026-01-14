@@ -4,10 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { TopHeader } from '@/components/layout/TopHeader'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { usePathname } from 'next/navigation'
 
 export function WorkspaceLayout({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname()
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
+
+    const shouldHideLayout = pathname === '/' || pathname === '/signin'
 
     // Persist sidebar state
     useEffect(() => {
@@ -43,11 +47,11 @@ export function WorkspaceLayout({ children }: { children: React.ReactNode }) {
     return (
         <TooltipProvider delayDuration={0}>
             <div className="flex h-screen bg-[#050505] overflow-hidden">
-                <Sidebar isCollapsed={isSidebarCollapsed} onToggle={toggleSidebar} />
+                {!shouldHideLayout && <Sidebar isCollapsed={isSidebarCollapsed} onToggle={toggleSidebar} />}
 
                 <div className="flex-1 flex flex-col min-w-0">
-                    <TopHeader onToggleSidebar={toggleSidebar} isSidebarVisible={!isSidebarCollapsed} />
-                    <main className="flex-1 h-full overflow-auto custom-scrollbar bg-background">
+                    {!shouldHideLayout && <TopHeader onToggleSidebar={toggleSidebar} isSidebarVisible={!isSidebarCollapsed} />}
+                    <main className={`flex-1 h-full overflow-auto custom-scrollbar bg-background ${shouldHideLayout ? 'p-0' : ''}`}>
                         {children}
                     </main>
                 </div>

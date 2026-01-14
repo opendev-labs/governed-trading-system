@@ -20,7 +20,7 @@ import {
     Folder,
     Database
 } from "lucide-react"
-import { useSession, signOut } from "next-auth/react"
+import { useAuth } from "@/components/providers/auth-provider"
 import {
     Tooltip,
     TooltipContent,
@@ -45,7 +45,7 @@ const navItems = [
 
 export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
     const pathname = usePathname()
-    const { data: session } = useSession()
+    const { user, signOut: firebaseSignOut } = useAuth()
 
     return (
         <aside
@@ -131,24 +131,24 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
 
             {/* User Profile / Bottom */}
             <div className="p-2 border-t border-border/50 bg-[#080808]">
-                {session?.user ? (
+                {user ? (
                     <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} p-1`}>
                         <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                            {session.user.image ? (
-                                <img src={session.user.image} alt={session.user.name || ''} className="w-full h-full rounded-full" />
+                            {user.photoURL ? (
+                                <img src={user.photoURL} alt={user.displayName || user.email || ''} className="w-full h-full rounded-full" />
                             ) : (
                                 <User className="w-4 h-4 text-primary" />
                             )}
                         </div>
                         {!isCollapsed && (
                             <div className="flex-1 min-w-0">
-                                <div className="text-[11px] font-bold text-zinc-200 truncate leading-tight">{session.user.name}</div>
+                                <div className="text-[11px] font-bold text-zinc-200 truncate leading-tight">{user.displayName || user.email}</div>
                                 <div className="text-[9px] font-black text-primary uppercase tracking-tighter">Pro member</div>
                             </div>
                         )}
                         {!isCollapsed && (
                             <button
-                                onClick={() => signOut()}
+                                onClick={() => firebaseSignOut()}
                                 className="p-1.5 rounded-md hover:bg-red-500/10 text-zinc-500 hover:text-red-500 transition-colors"
                             >
                                 <LogOut className="w-3.5 h-3.5" />
