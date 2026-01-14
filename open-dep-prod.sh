@@ -66,43 +66,26 @@ npm install --legacy-peer-deps > /dev/null 2>&1
 echo -e "${ORANGE}+${NC} DEPENDENCY MAP ${CHECK_OK}"
 echo ""
 
-# 4. Production Build (Vercel)
-log_step "PRODUCTION BUILD (VERCEL)"
-render_progress 5 "Synthesizing Dynamic Bundle"
-npm run build > build_log.txt 2>&1
+# 4. Production Deployment (Vercel)
+log_step "PRODUCTION DEPLOYMENT (VERCEL)"
+render_progress 5 "Synthesizing & Pushing Dynamic Node"
+npm run deploy:prod > build_log.txt 2>&1
 if [ $? -ne 0 ]; then
-    echo -e "${ORANGE}[!] SYNTHESIS FAILED.${NC} Check build_log.txt."
+    echo -e "${ORANGE}[!] DEPLOYMENT FAILED.${NC} Check build_log.txt."
     exit 1
 fi
-echo -e "${ORANGE}+${NC} VERCEL BUNDLE   : ${CHECK_OK}"
+echo -e "${ORANGE}+${NC} VERCEL DEPLOY   : ${CHECK_OK}"
 rm build_log.txt
 echo ""
 
-# 5. Static Export (GitHub Pages)
-log_step "STATIC EXPORT (GH PAGES)"
-render_progress 3 "Extracting Static Assets"
-npm run prebuild:static > /dev/null 2>&1
-npm run build:static > build_log.txt 2>&1
-npm run postbuild:static > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-    echo -e "${ORANGE}[!] EXPORT FAILED.${NC} Static target unreachable."
-    exit 1
-fi
-echo -e "${ORANGE}+${NC} STATIC OUTPUT   : ${CHECK_OK}"
-rm build_log.txt
-echo ""
-
-# 6. Global Synchronization
+# 5. Global Synchronization
 log_step "GLOBAL SYNCHRONIZATION"
-render_progress 2 "Mirroring to Production Node"
-# Vercel Trigger
+render_progress 2 "Mirroring to Production Repositories"
+# GitHub Sync (Triggers Vercel CI/CD)
 git add . > /dev/null 2>&1
-git commit -m "prod: hyper-bose v2.4 (dual-sync deployment)" > /dev/null 2>&1
+git commit -m "prod: hyper-bose v2.4 (vercel-sync deployment)" > /dev/null 2>&1
 git push origin main --force > /dev/null 2>&1
-# GH Pages Trigger (Explicit Terminal Deploy)
-npx gh-pages -d out -m "Manual TUI Deploy [ci skip]" > /dev/null 2>&1
-echo -e "${ORANGE}+${NC} VERCEL SYNC     : ${CHECK_OK}"
-echo -e "${ORANGE}+${NC} GH-PAGES SYNC   : ${CHECK_OK}"
+echo -e "${ORANGE}+${NC} GITHUB SYNC       : ${CHECK_OK}"
 echo ""
 
 echo -e "${DARK_GRAY}======================= SUMMARY =======================${NC}"

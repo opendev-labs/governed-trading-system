@@ -6,6 +6,7 @@
   "scripts": {
     "build": "next build",
     "build:firebase": "next build",
+    "deploy:prod": "npx vercel --prod --yes",
     "deploy:firebase": "npm run build:firebase && npx firebase-tools deploy --only hosting:scantrade",
     "dev": "next dev",
     "lint": "eslint .",

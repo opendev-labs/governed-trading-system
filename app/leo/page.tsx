@@ -12,7 +12,7 @@ import { useChat } from '@ai-sdk/react'
 export default function LeoPage() {
     const { messages, input, handleInputChange, handleSubmit, isLoading, stop, append } = useChat({
         api: '/api/leo/chat',
-    })
+    } as any) as any
 
     const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -104,7 +104,7 @@ export default function LeoPage() {
                 ) : (
                     // Chat History
                     <div className="max-w-3xl mx-auto py-8 px-4 space-y-6">
-                        {messages.map((msg, i) => (
+                        {messages.map((msg: any, i: number) => (
                             <motion.div
                                 key={msg.id}
                                 initial={{ opacity: 0, y: 10 }}
@@ -130,7 +130,7 @@ export default function LeoPage() {
                                             : 'text-zinc-300'
                                         }
                                     `}>
-                                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                        <ReactMarkdown>{msg.content || ''}</ReactMarkdown>
                                     </div>
                                 </div>
                             </motion.div>

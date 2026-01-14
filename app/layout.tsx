@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'ScanTrade | Simple Market Screeners',
   description: 'Lightweight trading screener system with smart alerts. Built for traders, not institutions.',
   keywords: ['trading', 'algorithmic trading', 'fintech', 'governance', 'market scanners'],
-  metadataBase: new URL('https://scantrade.web.app/'),
+  metadataBase: new URL('https://scantrade.vercel.app/'),
   openGraph: {
     title: 'ScanTrade | Simple Market Screeners',
     description: 'Lightweight trading screener system with smart alerts.',
