@@ -7,15 +7,15 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'ScanTrade | Simple Market Screeners',
-  description: 'Lightweight trading screener system with smart alerts. Built for traders, not institutions.',
-  keywords: ['trading', 'algorithmic trading', 'fintech', 'governance', 'market scanners'],
-  metadataBase: new URL('https://scantrade.vercel.app/'),
+  title: 'Polyscan | Prediction & Probability Intelligence',
+  description: 'Advanced market intelligence for prediction markets. Trade on probabilities, not just charts.',
+  keywords: ['prediction markets', 'polymarket', 'logic engine', 'probability trading'],
+  metadataBase: new URL('https://polyscan.vercel.app/'),
   openGraph: {
-    title: 'ScanTrade | Simple Market Screeners',
-    description: 'Lightweight trading screener system with smart alerts.',
-    url: 'https://scantrade.web.app/',
-    siteName: 'ScanTrade',
+    title: 'Polyscan | Prediction & Probability Intelligence',
+    description: 'Advanced market intelligence for prediction markets. Trade on probabilities, not just charts.',
+    url: 'https://polyscan.vercel.app/',
+    siteName: 'Polyscan',
     images: [
       {
         url: '/logo_transparent.png',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ScanTrade',
-    description: 'Lightweight trading screener system.',
+    title: 'Polyscan',
+    description: 'Advanced market intelligence for prediction markets.',
     images: ['/logo_transparent.png'],
   },
   icons: {

@@ -28,7 +28,7 @@ export default function Home() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
           >
             <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-primary">Live Intelligence Systems</span>
+            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-primary">Collective Intelligence Node</span>
           </motion.div>
 
           {/* Main Heading */}
@@ -38,9 +38,9 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-6xl sm:text-7xl lg:text-8xl font-black text-white tracking-tighter italic uppercase mb-6 leading-none"
           >
-            PROFESSIONAL
+            TRADE THE
             <br />
-            <span className="text-primary glow-text-primary">MARKET INTELLIGENCE</span>
+            <span className="text-primary glow-text-primary">PROBABILITIES</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -50,8 +50,8 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl sm:text-2xl text-zinc-400 max-w-3xl mx-auto mb-12 leading-relaxed"
           >
-            Advanced screeners, real-time Discord alerts, and institutional-grade analysis.
-            Your competitive edge in modern markets.
+            The professional scanner for prediction markets.
+            Real-time sentiment, crowd-logic analysis, and institutional-grade forecasting.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -66,21 +66,21 @@ export default function Home() {
                 href="/master"
                 className="px-8 py-4 bg-primary hover:bg-[#FF8A5E] text-black font-black text-sm uppercase tracking-wider rounded-sm transition-all shadow-2xl hover:shadow-primary/50 flex items-center gap-2 group"
               >
-                Enter Dashboard <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Open Terminal <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             ) : (
               <Link
                 href="/signin"
                 className="px-8 py-4 bg-primary hover:bg-[#FF8A5E] text-black font-black text-sm uppercase tracking-wider rounded-sm transition-all shadow-2xl hover:shadow-primary/50 flex items-center gap-2 group"
               >
-                Get Started Free <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Launch Polyscan <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             )}
             <Link
-              href="/how-it-works"
+              href="/screeners"
               className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm uppercase tracking-wider rounded-sm transition-all flex items-center gap-2"
             >
-              How It Works
+              Explore Markets
             </Link>
           </motion.div>
 
@@ -92,16 +92,16 @@ export default function Home() {
             className="flex flex-wrap items-center justify-center gap-8 text-[10px] text-zinc-600 uppercase tracking-widest font-black"
           >
             <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-primary/50" />
-              <span>Non-Custodial</span>
+              <Activity className="w-4 h-4 text-primary/50" />
+              <span>Polymarket Intergrated</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-primary/50" />
-              <span>Open Source</span>
+              <span>Decentralized Data</span>
             </div>
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-primary/50" />
-              <span>Real-Time Alerts</span>
+              <span>Real-Time Forecasts</span>
             </div>
           </motion.div>
         </div>
@@ -112,10 +112,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tighter italic uppercase mb-4">
-              Built for <span className="text-primary">Serious Traders</span>
+              Prediction <span className="text-primary">Intelligence</span>
             </h2>
             <p className="text-lg text-zinc-500 max-w-2xl mx-auto">
-              Professional tools that give you an institutional advantage without the institutional overhead.
+              Scan, analyze, and profit from the collective wisdom of global prediction markets.
             </p>
           </div>
 
@@ -123,38 +123,38 @@ export default function Home() {
             {[
               {
                 icon: Terminal,
-                title: "Advanced Screeners",
-                description: "Scan thousands of assets with institutional-grade indicators. VWAP, RSI, MVWAP, and custom logic.",
+                title: "Probability Scanners",
+                description: "Identify arbitrage and value gaps in prediction markets with hyper-sensitive delta scanners.",
                 link: "/screeners"
               },
               {
                 icon: Bell,
-                title: "Discord Alerts",
-                description: "Instant notifications to your Discord server when opportunities match your criteria.",
+                title: "Crowd Alerts",
+                description: "Get notified when massive volume shifts or sentiment flips occur on-chain.",
                 link: "/discord"
               },
               {
                 icon: BarChart3,
-                title: "Google Sheets Integration",
-                description: "Your strategy lives in spreadsheets. We execute it automatically.",
+                title: "USDC Flow Index",
+                description: "Track the smart money moving through Polygon-based prediction nodes.",
                 link: "/google-sheets"
               },
               {
                 icon: Activity,
-                title: "Live Signal Feed",
-                description: "Unified stream of all intelligence generated by your deployed agents.",
+                title: "Mission Control",
+                description: "Unified dashboard to manage your scanners, alerts, and market views.",
                 link: "/master"
               },
               {
                 icon: TrendingUp,
-                title: "LEO AI Assistant",
-                description: "Ask questions, analyze patterns, get insights from your market data using AI.",
+                title: "LEO Probability AI",
+                description: "Ask LEO to calculate R:R and logical outcomes based on historical market resolutions.",
                 link: "/leo"
               },
               {
                 icon: Shield,
-                title: "Non-Custodial Safety",
-                description: "Your capital stays with you. We never touch your funds or trading accounts.",
+                title: "Non-Custodial Logic",
+                description: "We provide the data and logic. Your capital stays in your wallet.",
                 link: "/how-it-works"
               },
             ].map((feature, index) => (
@@ -177,7 +177,7 @@ export default function Home() {
                     {feature.description}
                   </p>
                   <div className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                    Learn More <ArrowRight className="w-3 h-3" />
+                    Access Suite <ArrowRight className="w-3 h-3" />
                   </div>
                 </Link>
               </motion.div>
@@ -191,19 +191,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tighter italic uppercase mb-4">
-              Simple <span className="text-primary">Workflow</span>
+              The <span className="text-primary">Logic</span> Loop
             </h2>
             <p className="text-lg text-zinc-500 max-w-2xl mx-auto">
-              From market data to actionable alerts in seconds. No complexity, just results.
+              How Polyscan turns raw market noise into tradable probability signals.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { step: "01", title: "Define Logic", desc: "Set your criteria in Google Sheets or use our prebuilt screeners" },
-              { step: "02", title: "Deploy Scanners", desc: "Activate intelligent agents to monitor markets 24/7" },
-              { step: "03", title: "Get Alerts", desc: "Receive instant Discord notifications when signals fire" },
-              { step: "04", title: "Take Action", desc: "Review data and execute trades manually on your terms" },
+              { step: "01", title: "Market Indexing", desc: "We index every event on Polymarket to track price deltas" },
+              { step: "02", title: "Logic Filter", desc: "Apply your custom criteria using our institutional scanners" },
+              { step: "03", title: "AI Synthesis", desc: "LEO AI verifies the logical consistency of market shifts" },
+              { step: "04", title: "Smart Alerts", desc: "Receive triggers via Discord to execute your trade" },
             ].map((item, index) => (
               <motion.div
                 key={item.step}
@@ -237,10 +237,10 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-5xl sm:text-6xl font-black text-white tracking-tighter italic uppercase mb-6">
-              Ready to <span className="text-primary">Elevate</span> Your Trading?
+              Ready to <span className="text-primary">Out-Predict</span> The Market?
             </h2>
             <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
-              Join professional traders using ScanTrade for market intelligence and real-time alerts.
+              Join professional traders using Polyscan for advanced prediction market intelligence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {user ? (
@@ -248,21 +248,21 @@ export default function Home() {
                   href="/master"
                   className="px-10 py-5 bg-primary hover:bg-[#FF8A5E] text-black font-black text-base uppercase tracking-wider rounded-sm transition-all shadow-2xl hover:shadow-primary/50 flex items-center gap-3 group"
                 >
-                  Open Dashboard <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  Enter Terminal <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               ) : (
                 <Link
                   href="/signin"
                   className="px-10 py-5 bg-primary hover:bg-[#FF8A5E] text-black font-black text-base uppercase tracking-wider rounded-sm transition-all shadow-2xl hover:shadow-primary/50 flex items-center gap-3 group"
                 >
-                  Start Free Today <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  Access Polyscan <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               )}
               <Link
                 href="/pricing"
                 className="px-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-base uppercase tracking-wider rounded-sm transition-all flex items-center gap-3"
               >
-                View Pricing
+                View Plans
               </Link>
             </div>
           </motion.div>
@@ -276,36 +276,36 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-sm bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <Activity className="w-4 h-4 text-primary" />
+                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">P</span>
                 </div>
-                <span className="text-white font-black text-lg tracking-tighter uppercase italic">ScanTrade</span>
+                <span className="text-white font-black text-lg tracking-tighter uppercase italic">POLYSCAN</span>
               </div>
               <p className="text-zinc-600 text-xs leading-relaxed">
-                Professional market intelligence for serious traders.
+                Professional prediction market intelligence.
               </p>
             </div>
 
             <div>
-              <h4 className="text-white font-black text-xs uppercase tracking-widest mb-4">Product</h4>
+              <h4 className="text-white font-black text-xs uppercase tracking-widest mb-4">Node</h4>
               <ul className="space-y-2 text-zinc-600 text-xs">
-                <li><Link href="/screeners" className="hover:text-primary transition-colors">Screeners</Link></li>
-                <li><Link href="/discord" className="hover:text-primary transition-colors">Discord Alerts</Link></li>
+                <li><Link href="/screeners" className="hover:text-primary transition-colors">Scanners</Link></li>
+                <li><Link href="/discord" className="hover:text-primary transition-colors">Alerts</Link></li>
                 <li><Link href="/leo" className="hover:text-primary transition-colors">LEO AI</Link></li>
                 <li><Link href="/pricing" className="hover:text-primary transition-colors">Pricing</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-black text-xs uppercase tracking-widest mb-4">Learn</h4>
+              <h4 className="text-white font-black text-xs uppercase tracking-widest mb-4">Resources</h4>
               <ul className="space-y-2 text-zinc-600 text-xs">
-                <li><Link href="/how-it-works" className="hover:text-primary transition-colors">How It Works</Link></li>
-                <li><Link href="/google-sheets" className="hover:text-primary transition-colors">Google Sheets</Link></li>
+                <li><Link href="/how-it-works" className="hover:text-primary transition-colors">The Loop</Link></li>
+                <li><Link href="/google-sheets" className="hover:text-primary transition-colors">Sheets API</Link></li>
                 <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-black text-xs uppercase tracking-widest mb-4">Legal</h4>
+              <h4 className="text-white font-black text-xs uppercase tracking-widest mb-4">Protocol</h4>
               <ul className="space-y-2 text-zinc-600 text-xs">
                 <li><Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
                 <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
@@ -315,13 +315,13 @@ export default function Home() {
 
           <div className="border-t border-border/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-zinc-700 text-[10px] uppercase tracking-widest font-bold">
-              © 2026 OpenDev Labs. All rights reserved.
+              © 2026 POLYSCAN PROTOCOL.
             </p>
             <div className="flex items-center gap-4">
-              <Link href="https://github.com/opendev-labs/scantrade" className="text-zinc-700 hover:text-primary transition-colors">
+              <Link href="https://github.com/opendev-labs/polyscan" className="text-zinc-700 hover:text-primary transition-colors">
                 <Github className="w-4 h-4" />
               </Link>
-              <Link href="mailto:contact@opendev-labs.com" className="text-zinc-700 hover:text-primary transition-colors">
+              <Link href="mailto:contact@polyscan.io" className="text-zinc-700 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
               </Link>
             </div>

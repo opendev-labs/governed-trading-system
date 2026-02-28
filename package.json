@@ -1,7 +1,7 @@
 {
-  "name": "scantrade",
+  "name": "polyscan",
   "version": "0.1.0",
-  "homepage": "https://opendev-labs.github.io/scantrade",
+  "homepage": "https://opendev-labs.github.io/polyscan",
   "private": true,
   "scripts": {
     "build": "next build",

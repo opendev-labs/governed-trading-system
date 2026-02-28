@@ -1,5 +1,7 @@
-import { ChevronRight, Home, Layout, Search, Bell, History, User, PanelLeft, LogOut } from "lucide-react"
+import { ChevronRight, Home, Layout, Search, Bell, History, User, PanelLeft, LogOut, Zap, Beaker } from "lucide-react"
 import { useAuth } from "@/components/providers/auth-provider"
+import { useState, useEffect } from "react"
+import { toast } from "sonner"
 
 interface TopHeaderProps {
     onToggleSidebar?: () => void
@@ -8,6 +10,21 @@ interface TopHeaderProps {
 
 export function TopHeader({ onToggleSidebar, isSidebarVisible }: TopHeaderProps) {
     const { user, signOut } = useAuth()
+    const [mode, setMode] = useState<"classic" | "intelligence">("intelligence")
+
+    useEffect(() => {
+        const savedMode = localStorage.getItem("polyscan_active_mode") as "classic" | "intelligence"
+        if (savedMode) setMode(savedMode)
+    }, [])
+
+    const toggleMode = () => {
+        const newMode = mode === "classic" ? "intelligence" : "classic"
+        setMode(newMode)
+        localStorage.setItem("polyscan_active_mode", newMode)
+        toast.info(`Switched to ${newMode.toUpperCase()} mode`)
+        // In a real app, this would trigger a context update or page refresh
+        window.dispatchEvent(new Event('polyscan-mode-change'))
+    }
 
     return (
         <header className="h-[44px] bg-[#0A0A0A] border-b border-border flex items-center px-3 justify-between select-none z-50">
@@ -20,11 +37,11 @@ export function TopHeader({ onToggleSidebar, isSidebarVisible }: TopHeaderProps)
                     <PanelLeft className="w-4 h-4" />
                 </button>
 
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer transition-colors">
-                    <div className="w-4 h-4 rounded-sm bg-primary flex items-center justify-center">
-                        <span className="text-[10px] font-black text-black">S</span>
+                <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" onClick={toggleMode}>
+                    <div className={`w-4 h-4 rounded-sm flex items-center justify-center transition-colors ${mode === 'intelligence' ? 'bg-primary' : 'bg-zinc-700'}`}>
+                        {mode === 'intelligence' ? <Zap className="w-2.5 h-2.5 text-black" /> : <span className="text-[10px] font-black text-white">S</span>}
                     </div>
-                    <span className="text-xs font-bold text-zinc-300">My Workspace</span>
+                    <span className="text-xs font-bold text-zinc-300">{mode === 'intelligence' ? 'Polyscan Intelligence' : 'ScanTrade Classic'}</span>
                     <ChevronRight className="w-3.5 h-3.5 text-zinc-500" />
                 </div>
 
@@ -33,7 +50,7 @@ export function TopHeader({ onToggleSidebar, isSidebarVisible }: TopHeaderProps)
                 <div className="flex items-center gap-2 text-zinc-500">
                     <Home className="w-3.5 h-3.5 hover:text-zinc-300 cursor-pointer" />
                     <ChevronRight className="w-3 h-3" />
-                    <span className="text-[12px] text-zinc-400 font-medium">Dashboard</span>
+                    <span className="text-[12px] text-zinc-400 font-medium">{mode === 'intelligence' ? 'Probability Node' : 'Dashboard'}</span>
                 </div>
             </div>
 
@@ -42,7 +59,7 @@ export function TopHeader({ onToggleSidebar, isSidebarVisible }: TopHeaderProps)
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600 group-focus-within:text-primary transition-colors" />
                     <input
                         type="text"
-                        placeholder="Search ScanTrade"
+                        placeholder="Search Polyscan"
                         className="w-full bg-[#141414] border border-border/50 rounded-full py-1 pl-8 pr-3 text-[12px] text-zinc-300 placeholder:text-zinc-800 outline-none focus:border-border focus:ring-1 focus:ring-primary/20 transition-all"
                     />
                 </div>

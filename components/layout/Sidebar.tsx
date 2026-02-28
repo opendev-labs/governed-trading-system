@@ -35,12 +35,13 @@ interface SidebarProps {
 }
 
 const navItems = [
-    { id: 'dashboard', label: "Master Hub", href: "/master", icon: LayoutDashboard },
+    { id: 'dashboard', label: "Mission Control", href: "/master", icon: LayoutDashboard },
     { id: 'leo', label: "LEO Architect", href: "/leo", icon: Cpu },
-    { id: 'screeners', label: "Screeners", href: "/screeners", icon: Search },
-    { id: 'discord', label: "Alerts", href: "/discord", icon: MessageSquare },
-    { id: 'sheets', label: "Sheet Scanner", href: "/google-sheets", icon: FileSpreadsheet },
-    { id: 'history', label: "Resources", href: "/how-it-works", icon: Files },
+    { id: 'markets', label: "Probability Explorer", href: "/markets", icon: PieChart },
+    { id: 'screeners', label: "Scanners", href: "/screeners", icon: Search },
+    { id: 'discord', label: "Alert Feed", href: "/discord", icon: MessageSquare },
+    { id: 'sheets', label: "Sheet Logic", href: "/google-sheets", icon: FileSpreadsheet },
+    { id: 'history', label: "The Loop", href: "/how-it-works", icon: Files },
 ]
 
 export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
@@ -59,14 +60,14 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                 {!isCollapsed && (
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
-                            <img src="/logo_transparent.png" alt="ScanTrade" className="w-4 h-4 object-contain brightness-0" />
+                            <span className="text-[10px] font-black text-black">P</span>
                         </div>
-                        <span className="font-bold text-sm tracking-tight text-white/90">ScanTrade <span className="text-primary italic">Pro</span></span>
+                        <span className="font-bold text-sm tracking-tight text-white/90">POLYSCAN <span className="text-primary italic">Pro</span></span>
                     </div>
                 )}
                 {isCollapsed && (
                     <div className="w-8 h-8 rounded-md bg-transparent flex items-center justify-center overflow-hidden px-1">
-                        <img src="/logo_transparent.png" alt="ScanTrade" className="w-full h-full object-contain" />
+                        <span className="text-sm font-black text-primary">P</span>
                     </div>
                 )}
                 {!isCollapsed && (
